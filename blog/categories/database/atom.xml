@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Database | Blind Squirrel]]></title>
+  <link href="http://organicveggie.github.com/blog/categories/database/atom.xml" rel="self"/>
+  <link href="http://organicveggie.github.com/"/>
+  <updated>2013-03-12T13:43:16-07:00</updated>
+  <id>http://organicveggie.github.com/</id>
+  <author>
+    <name><![CDATA[Sean Laurent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Why PostgreSQL?]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/10/14/why-postgresql/"/>
+    <updated>2010-10-14T22:49:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/10/14/why-postgresql</id>
+    <content type="html"><![CDATA[<p>Quick overview of what PostgreSQL brings to the table that is not available in MySQL.</p>
+
+<!-- more -->
+
+
+<ul>
+<li>Uses MVCC for all tables providing:
+
+<ul>
+<li>Fully transactional including ACID compliance for consistency</li>
+<li>Nested transactions</li>
+</ul>
+</li>
+<li>SQL 2008 compliant</li>
+<li>Foreign keys for any table</li>
+<li>Advanced table partitioning</li>
+<li>Highly sophisticated query planner/optimizer
+
+<ul>
+<li>Can split up a query for execution across multiple CPUs simultaneously</li>
+<li>Collects internal statistics for adaptive query planning</li>
+<li>Special genetic query optimizer for queries with large numbers of joins</li>
+<li>Supports multiple indexes per table per query</li>
+</ul>
+</li>
+<li>Advanced support for query &amp; results caching</li>
+<li>Hot/online backup</li>
+<li>Point-in-time-recovery</li>
+<li>Write-ahead logs for fault-tolerance</li>
+<li>Tablespaces for controlling physical disk layout</li>
+<li>Native asynchronous replication guaranteeing identical results on all machines. Supports both:
+
+<ul>
+<li>Streaming replication</li>
+<li>Hot standby</li>
+</ul>
+</li>
+<li>Partial indexes</li>
+<li>Index creation/removal does not lock table</li>
+<li>Full support for constraints</li>
+<li>Transactional DDL - changes like table modifications can placed inside a transaction and rolled back</li>
+</ul>
+
+
+<p>Specific disadvantages to MySQL:</p>
+
+<ul>
+<li>Confusion with table types - MyISAM vs InnoDB</li>
+<li>Designed to scale out not up - does not utilize larger numbers of cores efficiently and cannot spread queries across cores</li>
+<li>Hot backup of is difficult for databases containing both InnoDB and MyISAM</li>
+<li>Replication is mediocre and error prone</li>
+<li>InnoDB stores the data with the primary key, so any queries using secondary indices are slower</li>
+<li>Subqueries not well optimized</li>
+<li>Only uses a single index per table per query</li>
+<li>Index creation/removal requires an exclusive write lock</li>
+<li>MyISAM only offers table level locking which causes severe performance degradation under heavy concurrency</li>
+<li>Limited support for constraints</li>
+<li>No transactional DDL - changes like table modifications are automatically committed and cannot be rolled back</li>
+</ul>
+
+
+<p>MySQL offers the following advantages over PostgreSQL:</p>
+
+<ul>
+<li>MyISAM tables can offer better read performance, specifically for simple SELECT queries, but at the cost of no support for transactions, foreign keys or data guarantees</li>
+<li>COUNT(*) on MyISAM is very fast and slow on PostgreSQL</li>
+<li>INSERT IGNORE and INSERT...ON DUPLICATE UPDATE</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
