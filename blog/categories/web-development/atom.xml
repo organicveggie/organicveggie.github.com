@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web Development | Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T15:35:20-07:00</updated>
+  <updated>2013-03-12T15:44:59-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -186,6 +186,180 @@
 </span><span class='line'>
 </span><span class='line'><span class="nt">&lt;p&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
+    <updated>2010-01-25T16:10:00-08:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
+    <content type="html"><![CDATA[<p>While working on a recent project in GWT, I needed to embed a full HTML document inside an IFRAME. And I didn't want to specify a remote URL for the IFRAME - I actually wanted to shove the HTML content directly into the IFRAME.</p>
+
+<!-- more -->
+
+
+<p>Initially I thought it was trivial: create an <code>IFrameElement</code> and call <code>setInnerHTML</code>.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">IFrameElement</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nx">Document</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">createIFrameElement</span><span class="p">();</span>
+</span><span class='line'><span class="nx">iframe</span><span class="p">.</span><span class="nx">setInnerHTML</span><span class="p">(</span><span class="nx">htmlContent</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Unfortunately, that doesn't work. It doesn't cause any errors, but it doesn't actually fill in the iframe. Instead, you have to use native javascript to write into the document object for the iframe:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">private</span> <span class="kr">final</span> <span class="kr">native</span> <span class="k">void</span> <span class="nx">fillIframe</span><span class="p">(</span><span class="nx">IFrameElement</span> <span class="nx">iframe</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">content</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nb">document</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">if</span><span class="p">(</span><span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">;</span> <span class="c1">// For NS6</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">;</span> <span class="c1">// For IE5.5 and IE6</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>   <span class="c1">// Put the content in the iframe</span>
+</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Voila! However, one of the side effects is that the iframe doesn't include any CSS unless your embedded HTML references a stylesheet. If you want to manually add a reference to a specific stylesheet, you can do that through native javascript as well:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">private</span> <span class="kr">final</span> <span class="kr">native</span> <span class="k">void</span> <span class="nx">addHeadElement</span><span class="p">(</span><span class="nx">IFrameElement</span> <span class="nx">iframe</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">cssUrl</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">body</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// FF</span>
+</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">designMode</span><span class="o">=</span> <span class="s2">&quot;On&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">execCommand</span><span class="p">(</span><span class="s1">&#39;styleWithCSS&#39;</span><span class="p">,</span><span class="kc">false</span><span class="p">,</span><span class="s1">&#39;false&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">body</span><span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// IE</span>
+</span><span class='line'>  <span class="nx">body</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">body</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">body</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s2">&quot;custom-body-classname&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">head</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">previousSibling</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">head</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">head</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;head&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">head</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">fileref</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;rel&quot;</span><span class="p">,</span> <span class="s2">&quot;stylesheet&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;text/css&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">cssUrl</span><span class="p">);</span>
+</span><span class='line'><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">fileref</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span> <span class="mi">50</span><span class="p">);</span>
+</span><span class='line'><span class="p">};}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>There's still one more problem. You can't use either of native methods until the IFRAME element has been attached to the DOM. The easiest way around this is to add the IFRAME element to a panel and over the onLoad() method for the panel:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">final</span> <span class="nx">IFrameElement</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nx">Document</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">createIFrameElement</span><span class="p">();</span>
+</span><span class='line'><span class="nx">FlowPanel</span> <span class="nx">innerBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FlowPanel</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="err">@</span><span class="nx">Override</span>
+</span><span class='line'><span class="kr">protected</span> <span class="k">void</span> <span class="nx">onLoad</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kr">super</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Fill the IFrame with the content html</span>
+</span><span class='line'>    <span class="nx">fillIframe</span><span class="p">(</span><span class="nx">iframe</span><span class="p">,</span> <span class="nx">contentHtml</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Add a HEAD element to the IFrame with the appropriate CSS</span>
+</span><span class='line'>    <span class="nx">addHeadElement</span><span class="p">(</span><span class="nx">iframe</span><span class="p">,</span> <span class="nx">cssUrl</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">};</span>
+</span><span class='line'><span class="nx">innerBox</span><span class="p">.</span><span class="nx">getElement</span><span class="p">().</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">iframe</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I got the idea and the important code from an article titled <a href="http://softwareas.com/injecting-html-into-an-iframe">Inject HTML into an IFrame</a> from <a href="http://softwareas.com/">Software As She's Developed</a>.</p>
 ]]></content>
   </entry>
   
