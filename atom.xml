@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T13:43:16-07:00</updated>
+  <updated>2013-03-12T14:29:21-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -391,6 +391,93 @@ grok.match(text).captures()
 <li>COUNT(*) on MyISAM is very fast and slow on PostgreSQL</li>
 <li>INSERT IGNORE and INSERT&#8230;ON DUPLICATE UPDATE</li>
 </ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Different content in Rails based on UserAgent]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
+    <updated>2010-08-11T10:57:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
+    <content type="html"><![CDATA[<p>I was recently working on a website built using Rails that needed to render different content for certain user agents. Specifically, we needed simpler versions of certain pages for BlackBerry devices. Here&#8217;s how I accomplished it.</p>
+
+<!-- more -->
+
+
+<p>First, I added a new mime-type for BlackBerry by adding the following line to <code>config/initializers/mime_types.rb</code>:</p>
+
+<figure class='code'><figcaption><span>mime_types.rb  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Mime</span><span class="p">:</span><span class="ss">:Type</span><span class="o">.</span><span class="n">register_alias</span> <span class="s2">&quot;text/html&quot;</span><span class="p">,</span> <span class="ss">:blackberry</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I added two utility methods to <code>app/controllers/application.rb</code>:</p>
+
+<figure class='code'><figcaption><span>application.rb  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Checks UserAgent</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">is_blackberry?</span>
+</span><span class='line'>  <span class="n">ua</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user_agent</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">ua</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="o">!</span> <span class="n">ua</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;blackberry&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Don&#39;t call the BlackBerry 9800 a BlackBerry, since it has a modern browser</span>
+</span><span class='line'>  <span class="c1"># based on WebKit:</span>
+</span><span class='line'>  <span class="c1"># Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, Like Gecko) Version/6.0.0.141 Mobile Safari/534.1+</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">ua</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;webkit&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Must be a BlackBerry!</span>
+</span><span class='line'>  <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Sets the respond_to format to blackberry if blackberry</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">set_blackberry_format</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">!</span><span class="n">request</span><span class="o">.</span><span class="n">xhr?</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">is_blackberry?</span>
+</span><span class='line'>    <span class="n">request</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="ss">:blackberry</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With that in hand, it&#8217;s easy to render BlackBerry specific content on specific pages:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set_blackberry_format</span>
+</span><span class='line'><span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">blackberry</span>
+</span><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">html</span>
+</span><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">js</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:layout</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kp">false</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 ]]></content>
   </entry>
