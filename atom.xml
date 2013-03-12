@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T12:17:50-07:00</updated>
+  <updated>2013-03-12T12:35:38-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -161,6 +161,160 @@ MEMCACHE_HOSTS = [ 'memcache1.graphite:11211' ]</code></pre>
 <li>Incoming on port 11211 (if you&#8217;re running memcached locally)</li>
 </ol>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Logstash grok filters]]></title>
+    <link href="http://organicveggie.github.com/blog/2012/05/15/testing-logstash-grok-filters/"/>
+    <updated>2012-05-15T13:25:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2012/05/15/testing-logstash-grok-filters</id>
+    <content type="html"><![CDATA[<p>Logstash is an outstanding tool for collecting and parsing logfiles. In particular, the grok filter is extremely useful to extract specific pieces of data from your logfiles. Once you pull data out of the logfiles into fields, you can easily search on those fields. Unfortunately, I find the format for patterns in grok filter challenging to write correctly. If you mess up your pattern, you will end up with the dreaded &#8220;_grokparsefailure&#8221; tag on your log entry. What you need is a way to test your patterns before adding them to Logstash.</p>
+
+<!-- more -->
+
+
+<p>As it turns out, you can test your patterns using the grok ruby library. @a1cy demonstrated the basics to me, but I wanted to describe the full process.</p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>Ruby 1.9+</li>
+<li>jls-grok gem</li>
+</ul>
+
+
+<p>On my machine, I chose to install Ruby 1.9.2 via RVM, but you can use whatever technique you want. If you try to use Ruby 1.8.7, you will get a syntax error when you load the grok gem.</p>
+
+<h2>Load Grok</h2>
+
+<p>You want to use the &#8220;grok-pure&#8221; library, which is 100% ruby, rather than &#8220;grok&#8221;, which depends on a C library.</p>
+
+<div>
+  <pre><code class='ruby'>require 'rubygems'
+require 'grok-pure'
+grok = Grok.new</code></pre>
+</div>
+
+
+<h2>Loading Patterns</h2>
+
+<p>Since the grok filter in Logstash depends heavily on pattern files, I recommend you download the standard patterns from Github. Either the standard set for Logstash:</p>
+
+<p><a href="https://github.com/logstash/logstash/tree/master/patterns">https://github.com/logstash/logstash/tree/master/patterns</a></p>
+
+<p>Or you can use the ones with grok:</p>
+
+<p><a href="https://github.com/jordansissel/ruby-grok/blob/master/patterns/pure-ruby">https://github.com/jordansissel/ruby-grok/blob/master/patterns/pure-ruby</a></p>
+
+<p>Dump these into a directory so that you can load them with grok.</p>
+
+<div>
+  <pre><code class='ruby'>grok.add_patterns_from_file(&quot;/path/to/patterns/grok-patterns&quot;)</code></pre>
+</div>
+
+
+<p>You can use the same technique to load your own pattern files. Or you can manually add patterns by name:</p>
+
+<div>
+  <pre><code class='ruby'>grok.add_pattern(&quot;foo&quot;, &quot;.*foo.*&quot;)
+grok.add_pattern(&quot;bar&quot;, &quot;.*bar.*&quot;)</code></pre>
+</div>
+
+
+<h2>Testing Patterns</h2>
+
+<p>So, you have successfully loaded a set of patterns. How do you test something? Let&#8217;s take a sample log line from a MongoDB logfile:</p>
+
+<p><code>Tue May 15 11:21:42 [conn1047685] moveChunk deleted: 7157</code></p>
+
+<p>Let&#8217;s say we want to grab the date/time as well as the number of the deleted chunk. Unfortunately, the date/time format doesn&#8217;t match any of the stock patterns. We can build up a new date pattern and test it each step of the way:</p>
+
+<div>
+  <pre><code class='ruby'>text = &quot;Tue May 15 11:21:42 [conn1047685] moveChunk deleted: 7157&quot;
+pattern = '%{DAY}'
+grok.compile(pattern)
+grok.match(text)</code></pre>
+</div>
+
+
+<p>The last line returns false if the pattern fails to match the input text. If the pattern matches the input text, Grok.match() returns a Grok::Match object that contains a lot of useful information about the match. You can ask Grok to output the text it capture by using the captures() method:</p>
+
+<div>
+  <pre><code class='ruby'>grok.match(text).captures()
+ =&gt; {&quot;DAY&quot;=&gt;[&quot;Tue&quot;]}</code></pre>
+</div>
+
+
+<p>You can also test named captures, the same way you would use them in the Logstash grok filter:</p>
+
+<div>
+  <pre><code class='ruby'>pattern = '%{DAY:day_of_week}'
+grok.compile(pattern)
+grok.match(text).captures()
+ =&gt; {&quot;DAY:day_of_week&quot;=&gt;[&quot;Tue&quot;]}</code></pre>
+</div>
+
+
+<p>The full date/time pattern for this example looks like the following:</p>
+
+<div>
+  <pre><code class='ruby'>pattern = '%{DAY} %{MONTH} %{MONTHDAY} %{TIME}'
+grok.compile(pattern)
+grok.match(text).capture()
+ =&gt; {&quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;]}</code></pre>
+</div>
+
+
+<p>Now let&#8217;s say we want to re-use this date/time pattern and still extract the chunk id from the log line. We can add a named pattern to the grok object manually and then reuse it, the same way we used patterns from the files:</p>
+
+<div>
+  <pre><code class='ruby'>grok.add_pattern(&quot;MONGO_TIMESTAMP&quot;, '%{DAY} %{MONTH} %{MONTHDAY} %{TIME}')
+grok.compile(&quot;%{MONGO_TIMESTAMP}&quot;)
+pattern = '%{MONGO_TIMESTAMP:timestamp}'
+grok.compile(pattern)
+grok.match(text).captures()
+ =&gt; {&quot;MONGO_TIMESTAMP:timestamp&quot;=&gt;[&quot;Tue May 15 11:21:42&quot;], &quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;]}</code></pre>
+</div>
+
+
+<p>We still want the chunk id, so we can use additional patterns:</p>
+
+<div>
+  <pre><code class='ruby'>pattern = '%{MONGO_TIMESTAMP:timestamp}%{GREEDYDATA} moveChunk deleted: %{NUMBER:chunk_id}'
+grok.compile(pattern)
+grok.match(text).captures()
+ =&gt; {&quot;MONGO_TIMESTAMP:timestamp&quot;=&gt;[&quot;Tue May 15 11:21:42&quot;], &quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;], &quot;GREEDYDATA&quot;=&gt;[&quot; [conn1047685]&quot;], &quot;NUMBER:chunk_id&quot;=&gt;[&quot;7157&quot;], &quot;BASE10NUM&quot;=&gt;[&quot;7157&quot;]}</code></pre>
+</div>
+
+
+<p>Let&#8217;s say we wanted to grab that connection number inside the square brackets:</p>
+
+<div>
+  <pre><code class='ruby'>pattern = '%{MONGO_TIMESTAMP:timestamp} \\[conn%{NUMBER:connection}\\] moveChunk deleted: %{NUMBER:chunk_id}'
+grok.compile(pattern)
+grok.match(text).captures()
+ =&gt; {&quot;MONGO_TIMESTAMP:timestamp&quot;=&gt;[&quot;Tue May 15 11:21:42&quot;], &quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;], &quot;NUMBER:connection&quot;=&gt;[&quot;1047685&quot;], &quot;BASE10NUM&quot;=&gt;[&quot;1047685&quot;, &quot;7157&quot;], &quot;NUMBER:chunk_id&quot;=&gt;[&quot;7157&quot;]}</code></pre>
+</div>
+
+
+<h2>Full Example</h2>
+
+<div>
+  <pre><code class='ruby'>require 'rubygems'
+require 'grok-pure'
+ 
+grok = Grok.new
+ 
+text = &quot;Tue May 15 11:21:42 [conn1047685] moveChunk deleted: 7157&quot;
+pattern = '%{MONGO_TIMESTAMP:timestamp} \\[conn%{NUMBER:connection}\\] moveChunk deleted: %{NUMBER:chunk_id}'
+grok.compile(pattern)
+grok.match(text).captures()
+ =&gt; {&quot;MONGO_TIMESTAMP:timestamp&quot;=&gt;[&quot;Tue May 15 11:21:42&quot;], &quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;], &quot;NUMBER:connection&quot;=&gt;[&quot;1047685&quot;], &quot;BASE10NUM&quot;=&gt;[&quot;1047685&quot;, &quot;7157&quot;], &quot;NUMBER:chunk_id&quot;=&gt;[&quot;7157&quot;]}</code></pre>
+</div>
+
+
+<p>You can also find an ultra simple example in the grok example folder on Github: <a href="https://github.com/jordansissel/ruby-grok/blob/master/examples/test.rb">https://github.com/jordansissel/ruby-grok/blob/master/examples/test.rb</a>.</p>
 ]]></content>
   </entry>
   
