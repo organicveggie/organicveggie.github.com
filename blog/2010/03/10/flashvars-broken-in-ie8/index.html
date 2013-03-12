@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FlashVars broken in IE8 - Blind Squirrel</title>
+  <meta name="author" content="Sean Laurent">
+
+  
+  <meta name="description" content="Unsurprisingly, Internet Explorer 8 broke yet another feature of the web. This time, the folks at Redmond broke how Internet Explorer passes the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Blind Squirrel</a></h1>
+  
+    <h2>Once in a while, even a blind squirrel finds a nut.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:organicveggie.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FlashVars Broken in IE8</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-10T10:16:00-08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Unsurprisingly, Internet Explorer 8 broke yet another feature of the web.</p>
+
+<!-- more -->
+
+
+<p>This time, the folks at Redmond broke how Internet Explorer passes the flashvars parameter into Flash. Typically, when placing a Flash object on an HTML page, you use the following syntax:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;object</span> <span class="na">id=</span><span class="s">&quot;flv&quot;</span> <span class="na">classid=</span><span class="s">&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">codebase=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">download</span><span class="err">.</span><span class="na">macromedia</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">pub</span><span class="err">/</span><span class="na">shockwave</span><span class="err">/</span><span class="na">cabs</span><span class="err">/</span><span class="na">flash</span><span class="err">/</span><span class="na">swflash</span><span class="err">.</span><span class="na">cab</span><span class="err">#</span><span class="na">version=</span><span class="s">9,0,0,0&quot;&quot;</span><span class="nt">&gt;</span>http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#vers...<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot;&gt;
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowScriptAccess&quot;</span> <span class="na">value=</span><span class="s">&quot;sameDomain&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowFullScreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;quality&quot;</span> <span class="na">value=</span><span class="s">&quot;high&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;bgcolor&quot;</span> <span class="na">value=</span><span class="s">&quot;#424242&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;FlashVars&quot;</span> <span class="na">value=</span><span class="s">&quot;name=value&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;embed</span> <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">src=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot; pluginspage=&quot;<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span><span class="err">&quot;</span><span class="nt">&gt;</span>http://www.macromedia.com/go/getflashplayer&quot;<span class="nt">&lt;/a&gt;</span> flashvars=&quot;name=value&quot; quality=&quot;high&quot; bgcolor=&quot;#424242&quot; wmode=&quot;transparent&quot; allowscriptaccess=&quot;sameDomain&quot; allowfullscreen=&quot;true&quot; name=&quot;flv&quot;&gt;<span class="nt">&lt;/embed&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> /&gt;
+</span><span class='line'><span class="nt">&lt;/object&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>OBJECT</code> tag is used by Internet Explorer and the <code>EMBED</code> tag is used by everyone else (Firefox, Safari, etc.). Although the flashvars paramter is not formally described in the <a href="http://www.w3.org/TR/html4/struct/objects.html#h-13.3.2">HTML 4.0.1 spec</a>, this code worked fine with IE 6 and IE 7. Unfortunately, IE 8 does not pass flashvars into the Flash Player. The only work around is to pass the flashvars parameter as part of the movie name parameter, as shown below:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;object</span> <span class="na">id=</span><span class="s">&quot;flv&quot;</span> <span class="na">classid=</span><span class="s">&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">codebase=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">download</span><span class="err">.</span><span class="na">macromedia</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">pub</span><span class="err">/</span><span class="na">shockwave</span><span class="err">/</span><span class="na">cabs</span><span class="err">/</span><span class="na">flash</span><span class="err">/</span><span class="na">swflash</span><span class="err">.</span><span class="na">cab</span><span class="err">#</span><span class="na">version=</span><span class="s">9,0,0,0&quot;&quot;</span><span class="nt">&gt;</span>http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#vers...<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot;&gt;
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowScriptAccess&quot;</span> <span class="na">value=</span><span class="s">&quot;sameDomain&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowFullScreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;quality&quot;</span> <span class="na">value=</span><span class="s">&quot;high&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;bgcolor&quot;</span> <span class="na">value=</span><span class="s">&quot;#424242&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;FlashVars&quot;</span> <span class="na">value=</span><span class="s">&quot;name=value&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;embed</span> <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">src=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot; pluginspage=&quot;<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span><span class="err">&quot;</span><span class="nt">&gt;</span>http://www.macromedia.com/go/getflashplayer&quot;<span class="nt">&lt;/a&gt;</span> flashvars=&quot;name=value&quot; quality=&quot;high&quot; bgcolor=&quot;#424242&quot; wmode=&quot;transparent&quot; allowscriptaccess=&quot;sameDomain&quot; allowfullscreen=&quot;true&quot; name=&quot;flv&quot;&gt;<span class="nt">&lt;/embed&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">?</span><span class="na">name=</span><span class="s">value&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf?name=value&quot;<span class="nt">&lt;/a&gt;</span> /&gt;
+</span><span class='line'><span class="nt">&lt;/object&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-10T10:16:00-08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flash/'>Flash</a>, <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/html/'>HTML</a>, <a class='category' href='/blog/categories/internet-explorer/'>Internet Explorer</a>, <a class='category' href='/blog/categories/microsoft/'>Microsoft</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>, <a class='category' href='/blog/categories/web-development/'>Web Development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/" title="Next Post: To Rewrite or Not to Rewrite: The Ugly Question">To Rewrite or Not to Rewrite: The Ugly Question &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/15/testing-logstash-grok-filters/">Testing Logstash grok filters</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/10/14/why-postgresql/">Why PostgreSQL?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/">Different content in Rails based on UserAgent</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/07/25/tomcat-init-script-for-ubuntu/">Tomcat init script for Ubuntu</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'organicveggie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100016775815082041155?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sean Laurent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

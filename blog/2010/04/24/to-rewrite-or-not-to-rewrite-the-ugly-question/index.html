@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>To Rewrite or Not to Rewrite: The Ugly Question - Blind Squirrel</title>
+  <meta name="author" content="Sean Laurent">
+
+  
+  <meta name="description" content="I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil&#8217;s advocate and argued against ever &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Blind Squirrel</a></h1>
+  
+    <h2>Once in a while, even a blind squirrel finds a nut.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:organicveggie.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">To Rewrite or Not to Rewrite: The Ugly Question</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-24T14:07:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil&#8217;s advocate and argued against ever throwing out and rewriting, which really got me thinking about the whole concept.</p>
+
+<!-- more -->
+
+
+<p>The discussion centered around article by Joel Spolsky (of <a href="http://www.joelonsoftware.com/">Joel on Software</a>) titled <a href="http://www.joelonsoftware.com/articles/fog0000000069.html">Things You Should Never Do, Part 1</a>. His points against rewrites include:</p>
+
+<ol>
+<li>The ugly code you throw out has been hardened and tested. It&#8217;s filled with bug fixes. You&#8217;re throwing out that knowledge and expertise.</li>
+<li>You&#8217;re throwing out market leadership and &#8220;giving a gift of two or three years to your competitors&#8221;.</li>
+<li>You&#8217;re not going to do a better job writing the code a second time than you did the first time, especially since it&#8217;s unlikely you have the same team that wrote the earlier version.</li>
+<li>You will introduce new bugs.</li>
+</ol>
+
+
+<p>Joel further argues that there are three major reasons developers want to rewrite code and none of them require rewrites:</p>
+
+<ol>
+<li>Architectural problems. The &#8220;you got your gui in my business logic&#8221; problem. This can be handled by small but steady code refactorings.</li>
+<li>Inefficiency. Again, can be handled by small code refactorings.</li>
+<li>The code is fugly. This may be due to complexity and bug fixes, in which case see point #1 above. Or it may be due to poor and changing naming conventions, in which case it can be fixed by a simple Find-Replace.</li>
+</ol>
+
+
+<p>These are all excellent points. On some level, I agree with this entirely. Even many nasty combinations of all three problems can be solved by steady refactorings. I have worked for places where people pushed for rewrites that weren&#8217;t necessary. But these were larger businesses with a well established core product. These were not early startups. That&#8217;s why I believe Joel makes several assumptions which are fatal to his arguments.</p>
+
+<p>First, he assumes the software project is really large and complex. While some of us may have worked on projects of that size and scope, quite of few of us work on much smaller projects. Simply put, it&#8217;s a matter of scale.Second, as a corollary of his first assumption, Joel also assumes that a rewrite requires years not months. Again, this is likely true for a product like Excel or Word&#8230; but this simply isn&#8217;t true for many of the sites and products I&#8217;ve worked on. Furthermore, the use of agile or rapid development technologies such as Ruby on Rails can dramatically shrink this window.</p>
+
+<p>Third, and perhaps most importantly, Joel assumes that the time required to cope with a messy code-base and make steady refactorings is significantly less than the time required to rewrite the app. And he assumes that&#8217;s a worthwhile trade off. This may be clear cut for larger products or companies, but I question whether or not that&#8217;s accurate for a startup. The more tangled your code, the longer it takes you to make changes. The longer it takes to make changes, the less nimble you are and the longer it takes you to respond to changes in company direction or marketplace demands.</p>
+
+<p>It&#8217;s that last point that I believe is most important to those of us working for small startups. We tend to be small young companies who are still striving to find our exact place in the wider world. We&#8217;re often in cutting edge spaces where there is no clear cut path to success. And usually we&#8217;re steadily seeing greater numbers of competitors in our space. It seems to me that agility is vitally important to people us. We need to be able to makes changes rapidly as our knowledge of the space evolves. Fundamentally, I think it&#8217;s better to have a decent product/feature/whatever out in the hands of consumers than it is to have a nearly perfect product that&#8217;s still under development. Don&#8217;t get me wrong, I&#8217;m sure I&#8217;m preaching to the choir. :) But, I think it&#8217;s critical to keep the need for agility and nimbleness in the forefront of our thoughts.</p>
+
+<p>Fourth, Joel assumes any architectural problems can be solved by steady refactoring. Frankly, I disagree. I think there exist serious architectural flaws, especially related to scalability that cannot be easily solved by refactoring. eBay, LinkedIn, Facebook and Yahoo have all had major rewrites in their history that were directly attributed to serious architectural failings.</p>
+
+<p>That is not to say that a full rewrite is necessarily a desirable goal. :) However, it takes careful management and planning to avoid finding yourself in this position. eBay used to employ a strategy they called <a href="http://www.svproduct.com/engineering-wants-to-rewrite/">headroom</a>, which basically set aside 20+% of all development time to refactor code and it keep it in top working order. While I think it may very difficult to employ such a strategy in a startup, it may be worth considering.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-24T14:07:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>Development</a>, <a class='category' href='/blog/categories/management/'>Management</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>, <a class='category' href='/blog/categories/startups/'>Startups</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/03/10/flashvars-broken-in-ie8/" title="Previous Post: FlashVars broken in IE8">&laquo; FlashVars broken in IE8</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/" title="Next Post: Ruby mixin for the Enum pattern">Ruby mixin for the Enum pattern &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/15/testing-logstash-grok-filters/">Testing Logstash grok filters</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/10/14/why-postgresql/">Why PostgreSQL?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/">Different content in Rails based on UserAgent</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/07/25/tomcat-init-script-for-ubuntu/">Tomcat init script for Ubuntu</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'organicveggie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100016775815082041155?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sean Laurent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

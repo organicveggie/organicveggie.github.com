@@ -1,6 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8/</loc>
+        <lastmod>2013-03-12T15:34:46-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/
+        </loc>
+        <lastmod>2013-03-12T15:29:03-07:00</lastmod>
+    </url>
+    <url>
         <loc>
             http://organicveggie.github.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/
         </loc>
@@ -30,11 +40,11 @@
     </url>
     <url>
         <loc>http://organicveggie.github.com/blog/archives/</loc>
-        <lastmod>2013-03-12T15:21:40-07:00</lastmod>
+        <lastmod>2013-03-12T15:34:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/</loc>
-        <lastmod>2013-03-12T15:21:40-07:00</lastmod>
+        <lastmod>2013-03-12T15:34:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/robots.txt</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T15:22:13-07:00</updated>
+  <updated>2013-03-12T15:35:20-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -307,6 +307,129 @@
 </span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:ALL</span><span class="o">.</span><span class="n">value</span> <span class="o">==&gt;</span> <span class="s2">&quot;all&quot;</span>
 </span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:ALL</span><span class="o">.</span><span class="n">label</span> <span class="o">==&gt;</span> <span class="s2">&quot;All Fruit&quot;</span>
 </span><span class='line'><span class="no">FooEnum</span><span class="o">.</span><span class="n">find_by_key</span><span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="c1">#&lt;NameValuePair @value=&quot;apple&quot;, @label=&quot;Apple&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[To Rewrite or Not to Rewrite: The Ugly Question]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
+    <updated>2010-04-24T14:07:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
+    <content type="html"><![CDATA[<p>I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil's advocate and argued against ever throwing out and rewriting, which really got me thinking about the whole concept.</p>
+
+<!-- more -->
+
+
+<p>The discussion centered around article by Joel Spolsky (of <a href="http://www.joelonsoftware.com/">Joel on Software</a>) titled <a href="http://www.joelonsoftware.com/articles/fog0000000069.html">Things You Should Never Do, Part 1</a>. His points against rewrites include:</p>
+
+<ol>
+<li>The ugly code you throw out has been hardened and tested. It's filled with bug fixes. You're throwing out that knowledge and expertise.</li>
+<li>You're throwing out market leadership and "giving a gift of two or three years to your competitors".</li>
+<li>You're not going to do a better job writing the code a second time than you did the first time, especially since it's unlikely you have the same team that wrote the earlier version.</li>
+<li>You will introduce new bugs.</li>
+</ol>
+
+
+<p>Joel further argues that there are three major reasons developers want to rewrite code and none of them require rewrites:</p>
+
+<ol>
+<li>Architectural problems. The "you got your gui in my business logic" problem. This can be handled by small but steady code refactorings.</li>
+<li>Inefficiency. Again, can be handled by small code refactorings.</li>
+<li>The code is fugly. This may be due to complexity and bug fixes, in which case see point #1 above. Or it may be due to poor and changing naming conventions, in which case it can be fixed by a simple Find-Replace.</li>
+</ol>
+
+
+<p>These are all excellent points. On some level, I agree with this entirely. Even many nasty combinations of all three problems can be solved by steady refactorings. I have worked for places where people pushed for rewrites that weren't necessary. But these were larger businesses with a well established core product. These were not early startups. That's why I believe Joel makes several assumptions which are fatal to his arguments.</p>
+
+<p>First, he assumes the software project is really large and complex. While some of us may have worked on projects of that size and scope, quite of few of us work on much smaller projects. Simply put, it's a matter of scale.Second, as a corollary of his first assumption, Joel also assumes that a rewrite requires years not months. Again, this is likely true for a product like Excel or Word... but this simply isn't true for many of the sites and products I've worked on. Furthermore, the use of agile or rapid development technologies such as Ruby on Rails can dramatically shrink this window.</p>
+
+<p>Third, and perhaps most importantly, Joel assumes that the time required to cope with a messy code-base and make steady refactorings is significantly less than the time required to rewrite the app. And he assumes that's a worthwhile trade off. This may be clear cut for larger products or companies, but I question whether or not that's accurate for a startup. The more tangled your code, the longer it takes you to make changes. The longer it takes to make changes, the less nimble you are and the longer it takes you to respond to changes in company direction or marketplace demands.</p>
+
+<p>It's that last point that I believe is most important to those of us working for small startups. We tend to be small young companies who are still striving to find our exact place in the wider world. We're often in cutting edge spaces where there is no clear cut path to success. And usually we're steadily seeing greater numbers of competitors in our space. It seems to me that agility is vitally important to people us. We need to be able to makes changes rapidly as our knowledge of the space evolves. Fundamentally, I think it's better to have a decent product/feature/whatever out in the hands of consumers than it is to have a nearly perfect product that's still under development. Don't get me wrong, I'm sure I'm preaching to the choir. :) But, I think it's critical to keep the need for agility and nimbleness in the forefront of our thoughts.</p>
+
+<p>Fourth, Joel assumes any architectural problems can be solved by steady refactoring. Frankly, I disagree. I think there exist serious architectural flaws, especially related to scalability that cannot be easily solved by refactoring. eBay, LinkedIn, Facebook and Yahoo have all had major rewrites in their history that were directly attributed to serious architectural failings.</p>
+
+<p>That is not to say that a full rewrite is necessarily a desirable goal. :) However, it takes careful management and planning to avoid finding yourself in this position. eBay used to employ a strategy they called <a href="http://www.svproduct.com/engineering-wants-to-rewrite/">headroom</a>, which basically set aside 20+% of all development time to refactor code and it keep it in top working order. While I think it may very difficult to employ such a strategy in a startup, it may be worth considering.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[FlashVars broken in IE8]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
+    <updated>2010-03-10T10:16:00-08:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
+    <content type="html"><![CDATA[<p>Unsurprisingly, Internet Explorer 8 broke yet another feature of the web.</p>
+
+<!-- more -->
+
+
+<p>This time, the folks at Redmond broke how Internet Explorer passes the flashvars parameter into Flash. Typically, when placing a Flash object on an HTML page, you use the following syntax:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;object</span> <span class="na">id=</span><span class="s">&quot;flv&quot;</span> <span class="na">classid=</span><span class="s">&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">codebase=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">download</span><span class="err">.</span><span class="na">macromedia</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">pub</span><span class="err">/</span><span class="na">shockwave</span><span class="err">/</span><span class="na">cabs</span><span class="err">/</span><span class="na">flash</span><span class="err">/</span><span class="na">swflash</span><span class="err">.</span><span class="na">cab</span><span class="err">#</span><span class="na">version=</span><span class="s">9,0,0,0&quot;&quot;</span><span class="nt">&gt;</span>http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#vers...<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot;&gt;
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowScriptAccess&quot;</span> <span class="na">value=</span><span class="s">&quot;sameDomain&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowFullScreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;quality&quot;</span> <span class="na">value=</span><span class="s">&quot;high&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;bgcolor&quot;</span> <span class="na">value=</span><span class="s">&quot;#424242&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;FlashVars&quot;</span> <span class="na">value=</span><span class="s">&quot;name=value&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;embed</span> <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">src=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot; pluginspage=&quot;<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span><span class="err">&quot;</span><span class="nt">&gt;</span>http://www.macromedia.com/go/getflashplayer&quot;<span class="nt">&lt;/a&gt;</span> flashvars=&quot;name=value&quot; quality=&quot;high&quot; bgcolor=&quot;#424242&quot; wmode=&quot;transparent&quot; allowscriptaccess=&quot;sameDomain&quot; allowfullscreen=&quot;true&quot; name=&quot;flv&quot;&gt;<span class="nt">&lt;/embed&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> /&gt;
+</span><span class='line'><span class="nt">&lt;/object&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The <code>OBJECT</code> tag is used by Internet Explorer and the <code>EMBED</code> tag is used by everyone else (Firefox, Safari, etc.). Although the flashvars paramter is not formally described in the <a href="http://www.w3.org/TR/html4/struct/objects.html#h-13.3.2">HTML 4.0.1 spec</a>, this code worked fine with IE 6 and IE 7. Unfortunately, IE 8 does not pass flashvars into the Flash Player. The only work around is to pass the flashvars parameter as part of the movie name parameter, as shown below:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;object</span> <span class="na">id=</span><span class="s">&quot;flv&quot;</span> <span class="na">classid=</span><span class="s">&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">codebase=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">download</span><span class="err">.</span><span class="na">macromedia</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">pub</span><span class="err">/</span><span class="na">shockwave</span><span class="err">/</span><span class="na">cabs</span><span class="err">/</span><span class="na">flash</span><span class="err">/</span><span class="na">swflash</span><span class="err">.</span><span class="na">cab</span><span class="err">#</span><span class="na">version=</span><span class="s">9,0,0,0&quot;&quot;</span><span class="nt">&gt;</span>http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#vers...<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot;&gt;
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowScriptAccess&quot;</span> <span class="na">value=</span><span class="s">&quot;sameDomain&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowFullScreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;quality&quot;</span> <span class="na">value=</span><span class="s">&quot;high&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;bgcolor&quot;</span> <span class="na">value=</span><span class="s">&quot;#424242&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;FlashVars&quot;</span> <span class="na">value=</span><span class="s">&quot;name=value&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'> <span class="nt">&lt;embed</span> <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span> <span class="na">width=</span><span class="s">&quot;692&quot;</span> <span class="na">height=</span><span class="s">&quot;516&quot;</span> <span class="na">src=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf&quot;<span class="nt">&lt;/a&gt;</span> align=&quot;middle&quot; pluginspage=&quot;<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span><span class="err">&quot;</span><span class="nt">&gt;</span>http://www.macromedia.com/go/getflashplayer&quot;<span class="nt">&lt;/a&gt;</span> flashvars=&quot;name=value&quot; quality=&quot;high&quot; bgcolor=&quot;#424242&quot; wmode=&quot;transparent&quot; allowscriptaccess=&quot;sameDomain&quot; allowfullscreen=&quot;true&quot; name=&quot;flv&quot;&gt;<span class="nt">&lt;/embed&gt;</span>
+</span><span class='line'> <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;&lt;a href=&quot;</span><span class="na">http:</span><span class="err">//</span><span class="na">www</span><span class="err">.</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">/</span><span class="na">mysample</span><span class="err">.</span><span class="na">swf</span><span class="err">?</span><span class="na">name=</span><span class="s">value&quot;&quot;</span><span class="nt">&gt;</span>http://www.example.com/mysample.swf?name=value&quot;<span class="nt">&lt;/a&gt;</span> /&gt;
+</span><span class='line'><span class="nt">&lt;/object&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
