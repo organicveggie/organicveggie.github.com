@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Blind Squirrel]]></title>
-  <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: AWS | Blind Squirrel]]></title>
+  <link href="http://organicveggie.github.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
   <updated>2013-03-12T12:17:50-07:00</updated>
   <id>http://organicveggie.github.com/</id>
@@ -23,7 +23,7 @@
 <!-- more -->
 
 
-<p>In fact, the more we utilized Graphite, the more data we wanted to push into Graphite. Systems metrics? Check. IO stats? Check. Apache stats? Check. MongoDB stats on a per collection basis? Why not! We quickly found ourselves with over 50,000 metrics and 500GB of data, all of which was getting updated every 15-30 seconds. Unfortunately, we also rapidly hit the limit of how much data we could record on a single instance. Even with a RAID-0 array of 8x EBS volumes on an m2.2xlarge instance, we couldn&#8217;t write the data fast enough. The poor instance began spending more than 50% of it&#8217;s time in I/O wait  and eventually became non-responsive. What we needed was a way to distribute the write load across multiple instances.</p>
+<p>In fact, the more we utilized Graphite, the more data we wanted to push into Graphite. Systems metrics? Check. IO stats? Check. Apache stats? Check. MongoDB stats on a per collection basis? Why not! We quickly found ourselves with over 50,000 metrics and 500GB of data, all of which was getting updated every 15-30 seconds. Unfortunately, we also rapidly hit the limit of how much data we could record on a single instance. Even with a RAID-0 array of 8x EBS volumes on an m2.2xlarge instance, we couldn't write the data fast enough. The poor instance began spending more than 50% of it's time in I/O wait  and eventually became non-responsive. What we needed was a way to distribute the write load across multiple instances.</p>
 
 <p>Fortunately, Graphite natively supports running in a distributed environment. A successful deployment consists of three key pieces:</p>
 
@@ -48,26 +48,26 @@
 
 <p><code>carbon.conf</code></p>
 
-<div>
+<p><div>
   <pre><code class='properties'>[relay]
-RELAY_METHOD = consistent-hashing
+RELAY_METHOD = consistent-hashing&lt;/p&gt;
 
-LINE_RECEIVER_INTERFACE = x.x.x.x
-LINE_RECEIVER_PORT = 2003
+&lt;p&gt;LINE_RECEIVER_INTERFACE = x.x.x.x
+LINE_RECEIVER_PORT = 2003&lt;/p&gt;
 
-PICKLE_RECEIVER_INTERFACE = 127.0.0.1
-PICKLE_RECEIVER_PORT = 2004
+&lt;p&gt;PICKLE_RECEIVER_INTERFACE = 127.0.0.1
+PICKLE_RECEIVER_PORT = 2004&lt;/p&gt;
 
-DESTINATIONS = cache1:2004:a,cache2:2004:a
+&lt;p&gt;DESTINATIONS = cache1:2004:a,cache2:2004:a&lt;/p&gt;
 
-MAX_DATAPOINTS_PER_MESSAGE = 500
-MAX_QUEUE_SIZE = 10000
+&lt;p&gt;MAX_DATAPOINTS_PER_MESSAGE = 500
+MAX_QUEUE_SIZE = 10000&lt;/p&gt;
 
-USE_FLOW_CONTROL = True</code></pre>
+&lt;p&gt;USE_FLOW_CONTROL = True</code></pre>
 </div>
+</p>
 
-
-<p>For simplicity, we&#8217;re using the consistent-hashing method of sharding. The advantage to consistent-hasing is that Graphite will automatically split the metrics evenly across all carbon-cache instances. If you add another carbon-cache node, Graphite will start sending data to it. The disadvantage is that you have absolutely no control over which metric goes to which server. If you start with two nodes and then add a third node, Graphite will not automatically rebalance the data.</p>
+<p>For simplicity, we're using the consistent-hashing method of sharding. The advantage to consistent-hasing is that Graphite will automatically split the metrics evenly across all carbon-cache instances. If you add another carbon-cache node, Graphite will start sending data to it. The disadvantage is that you have absolutely no control over which metric goes to which server. If you start with two nodes and then add a third node, Graphite will not automatically rebalance the data.</p>
 
 <p>A couple key things to note:</p>
 
@@ -75,18 +75,18 @@ USE_FLOW_CONTROL = True</code></pre>
 <li>The RELAY_METHOD value is set to consistent-hashing</li>
 <li>The LINE_RECEIVER_INTERFACE must be set to the IP address of the relay node, not localhost</li>
 <li>The DESTINATIONS value must contain all of the target carbon-cache nodes</li>
-<li>Each server listed in the DESTINATIONS option must include the name or ip address of a carbon-cache instance, the pickle-receiver port for the remote instance and the carbon-cache identifier. If you run multiple carbon-cache daemons on the remote server,  the first instance will be identified as &#8220;a&#8221;, the second instance as &#8220;b&#8221;, etc.</li>
+<li>Each server listed in the DESTINATIONS option must include the name or ip address of a carbon-cache instance, the pickle-receiver port for the remote instance and the carbon-cache identifier. If you run multiple carbon-cache daemons on the remote server,  the first instance will be identified as "a", the second instance as "b", etc.</li>
 </ul>
 
 
 <p><code>relay.conf</code></p>
 
-<div>
+<p><div>
   <pre><code class='properties'>[default]
 default = true
 destinations = cache1,cache2</code></pre>
 </div>
-
+</p>
 
 <p>This sample relay.conf shows us splitting the data automatically across two servers: cache1 and cache2.</p>
 
@@ -96,28 +96,28 @@ destinations = cache1,cache2</code></pre>
 
 <p><code>carbon.conf</code></p>
 
-<div>
+<p><div>
   <pre><code class='properties'>[cache]
-LOCAL_DATA_DIR = /opt/graphite/storage/whisper/
+LOCAL_DATA_DIR = /opt/graphite/storage/whisper/&lt;/p&gt;
 
-MAX_CACHE_SIZE = inf
+&lt;p&gt;MAX_CACHE_SIZE = inf&lt;/p&gt;
 
-MAX_UPDATES_PER_SECOND = 800
+&lt;p&gt;MAX_UPDATES_PER_SECOND = 800&lt;/p&gt;
 
-MAX_CREATES_PER_MINUTE = 100
+&lt;p&gt;MAX_CREATES_PER_MINUTE = 100&lt;/p&gt;
 
-LINE_RECEIVER_INTERFACE = y.y.y.y
-LINE_RECEIVER_PORT = 2003
+&lt;p&gt;LINE_RECEIVER_INTERFACE = y.y.y.y
+LINE_RECEIVER_PORT = 2003&lt;/p&gt;
 
-PICKLE_RECEIVER_INTERFACE = y.y.y.y
-PICKLE_RECEIVER_PORT = 2004
+&lt;p&gt;PICKLE_RECEIVER_INTERFACE = y.y.y.y
+PICKLE_RECEIVER_PORT = 2004&lt;/p&gt;
 
-CACHE_QUERY_INTERFACE = 127.0.0.1
-CACHE_QUERY_PORT = 7002
+&lt;p&gt;CACHE_QUERY_INTERFACE = 127.0.0.1
+CACHE_QUERY_PORT = 7002&lt;/p&gt;
 
-LOG_UPDATES = False</code></pre>
+&lt;p&gt;LOG_UPDATES = False</code></pre>
 </div>
-
+</p>
 
 <p>There are several critical settings here. First, the pickle receiver must be configured correctly to allow incoming data from the carbon-relay server. Second, the line receiver must be configured correctly to allow the the webapp to communicate with the other carbon-cache instances.</p>
 
@@ -131,19 +131,19 @@ LOG_UPDATES = False</code></pre>
 
 <p>The other key is configuring the local_settings.py config file for the webapp correctly:</p>
 
-<div>
+<p><div>
   <pre><code class='properties'>CLUSTER_SERVERS = [ 'cache1','cache2' ]
 MEMCACHE_HOSTS = [ 'memcache1.graphite:11211' ]</code></pre>
 </div>
+</p>
 
+<p>The only mandatory piece of information in local_settings.py is CLUSTER_SERVERS, which must be a Python array containing strings that are the names (or ip address) of every carbon-cache server. You can optionally include an array of memcached instances to improve web performance dramatically. If you choose to utilize memcached, you can either run it locally on each carbon-cache instance or you can run a cluster of one or more memcached servers remotely. In the example above, we're using a single memcached instance running on a remote server.</p>
 
-<p>The only mandatory piece of information in local_settings.py is CLUSTER_SERVERS, which must be a Python array containing strings that are the names (or ip address) of every carbon-cache server. You can optionally include an array of memcached instances to improve web performance dramatically. If you choose to utilize memcached, you can either run it locally on each carbon-cache instance or you can run a cluster of one or more memcached servers remotely. In the example above, we&#8217;re using a single memcached instance running on a remote server.</p>
-
-<p>IMPORTANT NOTE: The local_settings.py file MUST be readable by the web server user. If you&#8217;re running Apache, this is typically the apache user. If the local_settings.py file is NOT readable, you will get very very strange errors.</p>
+<p>IMPORTANT NOTE: The local_settings.py file MUST be readable by the web server user. If you're running Apache, this is typically the apache user. If the local_settings.py file is NOT readable, you will get very very strange errors.</p>
 
 <h2>Firewall Rules</h2>
 
-<p>To get this all working, specific ports must be open on the various firewalls. If you&#8217;re using Amazon EC2, your security groups will need to contain rules explicitly allowing incoming traffic on these ports:</p>
+<p>To get this all working, specific ports must be open on the various firewalls. If you're using Amazon EC2, your security groups will need to contain rules explicitly allowing incoming traffic on these ports:</p>
 
 <h3>carbon-relay</h3>
 
@@ -158,7 +158,7 @@ MEMCACHE_HOSTS = [ 'memcache1.graphite:11211' ]</code></pre>
 <li>Incoming on port 2004 (messages from carbon-relay)</li>
 <li>Incoming on port 2003 (requests for data from other carbon-cache servers)</li>
 <li>Incoming on port 80 (web requests)</li>
-<li>Incoming on port 11211 (if you&#8217;re running memcached locally)</li>
+<li>Incoming on port 11211 (if you're running memcached locally)</li>
 </ol>
 
 ]]></content>

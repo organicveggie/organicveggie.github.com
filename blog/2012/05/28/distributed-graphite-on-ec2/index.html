@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Distributed Graphite on EC2 - Blind Squirrel</title>
+  <meta name="author" content="Sean Laurent">
+
+  
+  <meta name="description" content="Some time ago, we switched from Cacti to Graphite for tracking and graphing system metrics. In our Amazon EC2 environment, we frequently startup new &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2012/05/28/distributed-graphite-on-ec2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Blind Squirrel</a></h1>
+  
+    <h2>Once in a while, even a blind squirrel finds a nut.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:organicveggie.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Distributed Graphite on EC2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-28T14:20:00-07:00" pubdate data-updated="true">May 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Some time ago, we switched from <a href="http://www.cacti.net/">Cacti</a> to <a href="http://graphite.wikidot.com/">Graphite</a> for tracking and graphing system metrics. In our <a href="http://aws.amazon.com/ec2/">Amazon EC2 environment</a>, we frequently startup new servers and shut down old servers. While Cacti did a decent job, the amount of manual effort required to setup new graphs made it a challenge to use. Since Graphite simply tracks anything you throw at it and easily handles applying aggregate functions across multiple metrics, we found Graphite to be a much better fit with EC2 and our usage patterns. With a solid web interface and a variety of alternate front-ends and awesome dashboard tools like <a href="http://jondot.github.com/graphene/">Graphene</a>, we quickly fell in love with Graphite.</p>
+
+<!-- more -->
+
+
+<p>In fact, the more we utilized Graphite, the more data we wanted to push into Graphite. Systems metrics? Check. IO stats? Check. Apache stats? Check. MongoDB stats on a per collection basis? Why not! We quickly found ourselves with over 50,000 metrics and 500GB of data, all of which was getting updated every 15-30 seconds. Unfortunately, we also rapidly hit the limit of how much data we could record on a single instance. Even with a RAID-0 array of 8x EBS volumes on an m2.2xlarge instance, we couldn&#8217;t write the data fast enough. The poor instance began spending more than 50% of it&#8217;s time in I/O wait  and eventually became non-responsive. What we needed was a way to distribute the write load across multiple instances.</p>
+
+<p>Fortunately, Graphite natively supports running in a distributed environment. A successful deployment consists of three key pieces:</p>
+
+<ul>
+<li>carbon-cache - This is what actually accepts and stores the metrics.</li>
+<li>carbon-relay - Handles sharding the metrics and sending them to the appropriate carbon-cache instances.</li>
+<li>webapp - Handles displaying the metrics. Must reside on every instance running a carbon-cache daemon. The webapp queries the other carbon-cache instances for data as necessary.</li>
+</ul>
+
+
+<p>Although there are many different ways you can setup your distributed Graphite environment, we chose to take a straight foward approach:</p>
+
+<ul>
+<li>One dedicated instance running carbon-relay that receives metrics from the various server instances, shards the metrics and forwards them on to the carbon-cache servers</li>
+<li>Two dedicated instances running both carbon-cache and webapp.</li>
+</ul>
+
+
+<h2>Carbon Relay</h2>
+
+<p>On the carbon-relay server, you need to configure two key files to indicate that this node should run as a relay: carbon.conf and relay.conf.</p>
+
+<p><code>carbon.conf</code></p>
+
+<div>
+  <pre><code class='properties'>[relay]
+RELAY_METHOD = consistent-hashing
+
+LINE_RECEIVER_INTERFACE = x.x.x.x
+LINE_RECEIVER_PORT = 2003
+
+PICKLE_RECEIVER_INTERFACE = 127.0.0.1
+PICKLE_RECEIVER_PORT = 2004
+
+DESTINATIONS = cache1:2004:a,cache2:2004:a
+
+MAX_DATAPOINTS_PER_MESSAGE = 500
+MAX_QUEUE_SIZE = 10000
+
+USE_FLOW_CONTROL = True</code></pre>
+</div>
+
+
+<p>For simplicity, we&#8217;re using the consistent-hashing method of sharding. The advantage to consistent-hasing is that Graphite will automatically split the metrics evenly across all carbon-cache instances. If you add another carbon-cache node, Graphite will start sending data to it. The disadvantage is that you have absolutely no control over which metric goes to which server. If you start with two nodes and then add a third node, Graphite will not automatically rebalance the data.</p>
+
+<p>A couple key things to note:</p>
+
+<ul>
+<li>The RELAY_METHOD value is set to consistent-hashing</li>
+<li>The LINE_RECEIVER_INTERFACE must be set to the IP address of the relay node, not localhost</li>
+<li>The DESTINATIONS value must contain all of the target carbon-cache nodes</li>
+<li>Each server listed in the DESTINATIONS option must include the name or ip address of a carbon-cache instance, the pickle-receiver port for the remote instance and the carbon-cache identifier. If you run multiple carbon-cache daemons on the remote server,  the first instance will be identified as &#8220;a&#8221;, the second instance as &#8220;b&#8221;, etc.</li>
+</ul>
+
+
+<p><code>relay.conf</code></p>
+
+<div>
+  <pre><code class='properties'>[default]
+default = true
+destinations = cache1,cache2</code></pre>
+</div>
+
+
+<p>This sample relay.conf shows us splitting the data automatically across two servers: cache1 and cache2.</p>
+
+<h2>Carbon Cache</h2>
+
+<p>On the carbon-cache servers, we need to configure the carbon-cache daemon to appropriately accept incoming data from the carbon-relay servers.</p>
+
+<p><code>carbon.conf</code></p>
+
+<div>
+  <pre><code class='properties'>[cache]
+LOCAL_DATA_DIR = /opt/graphite/storage/whisper/
+
+MAX_CACHE_SIZE = inf
+
+MAX_UPDATES_PER_SECOND = 800
+
+MAX_CREATES_PER_MINUTE = 100
+
+LINE_RECEIVER_INTERFACE = y.y.y.y
+LINE_RECEIVER_PORT = 2003
+
+PICKLE_RECEIVER_INTERFACE = y.y.y.y
+PICKLE_RECEIVER_PORT = 2004
+
+CACHE_QUERY_INTERFACE = 127.0.0.1
+CACHE_QUERY_PORT = 7002
+
+LOG_UPDATES = False</code></pre>
+</div>
+
+
+<p>There are several critical settings here. First, the pickle receiver must be configured correctly to allow incoming data from the carbon-relay server. Second, the line receiver must be configured correctly to allow the the webapp to communicate with the other carbon-cache instances.</p>
+
+<ul>
+<li>LINE_RECEIVER_INTERFACE must be set to the local ip address (not 127.0.0.1)</li>
+<li>LINE_RECEIVER_PORT must be set to 2003</li>
+<li>PICKLE_RECEIVER_INTERFACE must be set to the local ip address (not 127.0.0.1)</li>
+<li>PICKLE_RECEIVER_PORT must match the port we listed in the DESTINATION line in carbon.conf on the carbon-relay server</li>
+</ul>
+
+
+<p>The other key is configuring the local_settings.py config file for the webapp correctly:</p>
+
+<div>
+  <pre><code class='properties'>CLUSTER_SERVERS = [ 'cache1','cache2' ]
+MEMCACHE_HOSTS = [ 'memcache1.graphite:11211' ]</code></pre>
+</div>
+
+
+<p>The only mandatory piece of information in local_settings.py is CLUSTER_SERVERS, which must be a Python array containing strings that are the names (or ip address) of every carbon-cache server. You can optionally include an array of memcached instances to improve web performance dramatically. If you choose to utilize memcached, you can either run it locally on each carbon-cache instance or you can run a cluster of one or more memcached servers remotely. In the example above, we&#8217;re using a single memcached instance running on a remote server.</p>
+
+<p>IMPORTANT NOTE: The local_settings.py file MUST be readable by the web server user. If you&#8217;re running Apache, this is typically the apache user. If the local_settings.py file is NOT readable, you will get very very strange errors.</p>
+
+<h2>Firewall Rules</h2>
+
+<p>To get this all working, specific ports must be open on the various firewalls. If you&#8217;re using Amazon EC2, your security groups will need to contain rules explicitly allowing incoming traffic on these ports:</p>
+
+<h3>carbon-relay</h3>
+
+<ol>
+<li>Incoming on port 2003</li>
+</ol>
+
+
+<h3>carbon-cache/webapp</h3>
+
+<ol>
+<li>Incoming on port 2004 (messages from carbon-relay)</li>
+<li>Incoming on port 2003 (requests for data from other carbon-cache servers)</li>
+<li>Incoming on port 80 (web requests)</li>
+<li>Incoming on port 11211 (if you&#8217;re running memcached locally)</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-28T14:20:00-07:00" pubdate data-updated="true">May 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aws/'>AWS</a>, <a class='category' href='/blog/categories/ec2/'>EC2</a>, <a class='category' href='/blog/categories/graphite/'>Graphite</a>, <a class='category' href='/blog/categories/metrics/'>Metrics</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2012/05/28/distributed-graphite-on-ec2/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2012/05/28/distributed-graphite-on-ec2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'organicveggie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100016775815082041155?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sean Laurent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
