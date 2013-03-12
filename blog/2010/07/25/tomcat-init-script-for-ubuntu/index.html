@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tomcat init script for Ubuntu - Blind Squirrel</title>
+  <meta name="author" content="Sean Laurent">
+
+  
+  <meta name="description" content="Recently I spent some time working on improving my init scripts for Tomcat 6.x in a production environment running Ubuntu. One of the major problems &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2010/07/25/tomcat-init-script-for-ubuntu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Blind Squirrel</a></h1>
+  
+    <h2>Once in a while, even a blind squirrel finds a nut.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:organicveggie.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tomcat Init Script for Ubuntu</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-25T13:06:00-07:00" pubdate data-updated="true">Jul 25<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently I spent some time working on improving my init scripts for Tomcat 6.x in a production environment running Ubuntu. One of the major problems we had encountered was that occasionally Tomcat refuses to shut down completely and requires a <code>kill -9</code> to stop it. The standard init scripts I had seen didn&#8217;t solve this problem at all.</p>
+
+<!-- more -->
+
+
+<p><a href="http://www.laliluna.de/">Laliluna</a> has a great <a href="http://www.laliluna.de/articles/tomcat-startup-script-linux.html">article</a> that focuses on RedHat, CentOS and Fedora. Unfortunately, their scripts didn&#8217;t work correctly under Ubuntu 8.04 LTS. As a result, I spent some time modifying their scripts to get them to work correctly under Unbuntu. Many thanks to Laliluna for doing the heavy work.</p>
+
+<p>Without any further ado, here&#8217;s what I put together:</p>
+
+<figure class='code'><figcaption><span>/etc/init.dtomcat  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># Startup script for Jakarta Tomcat</span>
+</span><span class='line'><span class="c"># Script should work on Ubuntu Linux.</span>
+</span><span class='line'><span class="c"># WARNING: The script does not allow to run Tomcat on privileged ports as non root user. </span>
+</span><span class='line'><span class="c"># For this use case try : &lt;a href=&quot;http://tomcat.apache.org/tomcat-6.0-doc/setup.html&quot;&gt;http://tomcat.apache.org/tomcat-6.0-doc/setup.html&lt;/a&gt; and &lt;a href=&quot;http://commons.apache.org/daemon/jsvc.html</span>
+</span><span class='line'><span class="c">#&quot;&gt;http://commons.apache.org/daemon/jsvc.html</span>
+</span><span class='line'><span class="c">#&lt;/a&gt; </span>
+</span><span class='line'><span class="c"># Should start normally after the databases and before http server</span>
+</span><span class='line'><span class="c"># chkconfig: 345 80 10</span>
+</span><span class='line'><span class="c"># description: Jakarta Tomcat Java Servlet/JSP Container</span>
+</span><span class='line'><span class="c"># processname: tomcat</span>
+</span><span class='line'><span class="c"># pidfile: /var/run/tomcat/tomcat.pid</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">##### In this area you can find settings which are likely to change frequently ####</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">JAVA</span><span class="o">=</span>/opt/java/current/bin/java
+</span><span class='line'><span class="c"># unprivileged user running Tomcat server</span>
+</span><span class='line'><span class="nv">tomcatuser</span><span class="o">=</span>tomcat
+</span><span class='line'>
+</span><span class='line'><span class="c"># servicename used as pidfile and lockfile name, must correspond to &#39;processname:&#39; at the top of this file</span>
+</span><span class='line'><span class="c"># If not linux will not detect the running service during runlevel switch and will not shut it down normally</span>
+</span><span class='line'><span class="nv">servicename</span><span class="o">=</span>tomcat
+</span><span class='line'>
+</span><span class='line'><span class="c"># folder where Tomcat is installed</span>
+</span><span class='line'><span class="nv">CATALINA_HOME</span><span class="o">=</span>/opt/tomcat
+</span><span class='line'>
+</span><span class='line'><span class="c"># Options for the JVM</span>
+</span><span class='line'><span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;$JAVA_OPTS -Xms1024m -Xmx2048m -XX:MaxPermSize=512m -XX:PermSize=128m&quot;</span>
+</span><span class='line'><span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&quot;$JAVA_OPTS -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 JAVA_OPTS=&quot;</span>-Djavax.servlet.request.encoding<span class="o">=</span>UTF-8 -Djavax.servlet.response.encoding<span class="o">=</span>UTF-8 -Dfile.encoding<span class="o">=</span>UTF-8 <span class="nv">$JAVA_OPTS</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">##### End of frequent settings area #####</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">pidfile=/var/run/tomcat/$servicename</span>
+</span><span class='line'><span class="s2">lockfile=/var/lock/$servicename</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">#runsecure=1 #starts tomcat with java security</span>
+</span><span class='line'><span class="s2">runsecure=0</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># Optional additional libs you would like to add to the classpath (= JVM Option -classpath)</span>
+</span><span class='line'><span class="s2">CLASSPATH=&quot;&quot;</span>
+</span><span class='line'><span class="s2"># Optional Java Security Socket extension</span>
+</span><span class='line'><span class="s2"># CLASSPATH=&quot;</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;:&quot;</span><span class="nv">$JSSE_HOME</span><span class="s2">&quot;/lib/jcert.jar:&quot;</span><span class="nv">$JSSE_HOME</span><span class="s2">&quot;/lib/jnet.jar:&quot;</span><span class="nv">$JSSE_HOME</span><span class="s2">&quot;/lib/jsse.jar</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># path to Tomcat lib</span>
+</span><span class='line'><span class="s2">CLASSPATH=&quot;</span><span class="nv">$CLASSPATH</span><span class="s2">&quot;:&quot;</span><span class="nv">$CATALINA_HOME</span><span class="s2">&quot;/bin/bootstrap.jar</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># Directory holding configuration, defaults to CATALINA_HOME</span>
+</span><span class='line'><span class="s2"># In a Tomcat cluster you might reuse the servicename to identify the base directory</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">CATALINA_BASE=&quot;</span><span class="nv">$CATALINA_HOME</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"># server log during startup / shutdown</span>
+</span><span class='line'><span class="s2">logfile=$CATALINA_BASE/logs/catalina.out</span>
+</span><span class='line'><span class="s2"># endorsed allows to overwrite JVM libs -&amp;gt; JVM option -Djava.endorsed.dirs </span>
+</span><span class='line'><span class="s2">#JAVA_ENDORSED_DIRS=&quot;</span><span class="nv">$CATALINABASEDIR</span><span class="s2">&quot;/endorsed</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># Define the java.io.tmpdir to use for Catalina</span>
+</span><span class='line'><span class="s2">CATALINA_TMPDIR=&quot;</span><span class="nv">$CATALINA_BASE</span><span class="s2">&quot;/temp</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># Set juli LogManager if it is present</span>
+</span><span class='line'><span class="s2">if [ -r &quot;</span><span class="nv">$CATALINA_BASE</span><span class="s2">&quot;/conf/logging.properties ]; then</span>
+</span><span class='line'><span class="s2">  JAVA_OPTS=&quot;</span><span class="nv">$JAVA_OPTS</span> -Djava.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager<span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">  LOGGING_CONFIG=&quot;</span>-Djava.util.logging.config.file<span class="o">=</span><span class="nv">$CATALINA_BASE</span>/conf/logging.properties<span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">fi</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">#### End of settings #####</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"># build java command to start Tomcat</span>
+</span><span class='line'><span class="s2">command=&quot;</span><span class="nv">$JAVA</span> <span class="nv">$JAVA_OPTS</span> <span class="nv">$LOGGING_CONFIG</span> <span class="nv">$CATALINA_OPTS</span> <span class="nv">$LOGGING_CONFIG</span> <span class="se">\</span>
+</span><span class='line'>      -Djava.endorsed.dirs<span class="o">=</span><span class="nv">$JAVA_ENDORSED_DIRS</span> -classpath <span class="nv">$CLASSPATH</span> <span class="se">\</span>
+</span><span class='line'>      -Dcatalina.base<span class="o">=</span><span class="nv">$CATALINA_BASE</span> <span class="se">\</span>
+</span><span class='line'>      -Dcatalina.home<span class="o">=</span><span class="nv">$CATALINA_HOME</span> <span class="se">\</span>
+</span><span class='line'>      -Djava.io.tmpdir<span class="o">=</span><span class="nv">$CATALINA_TMPDIR</span><span class="s2">&quot; </span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">if [ &quot;</span><span class="nv">$runsecure</span><span class="s2">&quot; = &quot;</span>1<span class="s2">&quot; ]; then</span>
+</span><span class='line'><span class="s2">  command=&quot;</span><span class="nv">$command</span> -Djava.security.manager -Djava.security.policy<span class="o">=</span><span class="nv">$CATALINA_BASE</span>/conf/catalina.policy<span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">fi</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">command=&quot;</span><span class="nv">$command</span> org.apache.catalina.startup.Bootstrap<span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">start()</span>
+</span><span class='line'><span class="s2">{</span>
+</span><span class='line'><span class="s2"> echo $&quot;</span>Starting <span class="nv">$servicename</span> based at <span class="nv">$CATALINA_BASE</span> <span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> daemon --user=$tomcatuser --pidfile=$pidfile --output=$logfile -- $command start</span>
+</span><span class='line'><span class="s2"> RETVAL=$?</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2"> [ &quot;</span><span class="nv">$RETVAL</span><span class="s2">&quot; = 0 ] &amp;amp;&amp;amp; touch $lockfile</span>
+</span><span class='line'><span class="s2"> echo</span>
+</span><span class='line'><span class="s2">}</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">stop()</span>
+</span><span class='line'><span class="s2">{</span>
+</span><span class='line'><span class="s2"> echo -n $&quot;</span>Stopping <span class="nv">$prog</span>: <span class="s2">&quot;</span>
+</span><span class='line'><span class="s2"> if [ ! -r $pidfile ]; then</span>
+</span><span class='line'><span class="s2">     echo &quot;</span>Pidfile <span class="nv">$pidfile</span> cannot be <span class="nb">read</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">     RETVAL=1</span>
+</span><span class='line'><span class="s2">     return</span>
+</span><span class='line'><span class="s2"> fi</span>
+</span><span class='line'><span class="s2"> # Sends TERM signal first and kills finally after 10 seconds</span>
+</span><span class='line'><span class="s2"> start-stop-daemon --pidfile $pidfile -R 10 --stop</span>
+</span><span class='line'><span class="s2"> RETVAL=$?</span>
+</span><span class='line'><span class="s2"> [ $RETVAL = 0 ] &amp;amp;&amp;amp; rm -f ${lockfile} ${pidfile}</span>
+</span><span class='line'><span class="s2"> echo</span>
+</span><span class='line'><span class="s2">}</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">version()</span>
+</span><span class='line'><span class="s2">{</span>
+</span><span class='line'><span class="s2"> $JAVA -classpath $CATALINA_HOME/lib/catalina.jar org.apache.catalina.util.ServerInfo</span>
+</span><span class='line'><span class="s2"> RETVAL=$?</span>
+</span><span class='line'><span class="s2">}</span>
+</span><span class='line'><span class="s2"> </span>
+</span><span class='line'><span class="s2">case &quot;</span><span class="nv">$1</span><span class="s2">&quot; in</span>
+</span><span class='line'><span class="s2"> start)</span>
+</span><span class='line'><span class="s2">     start</span>
+</span><span class='line'><span class="s2">     ;;</span>
+</span><span class='line'><span class="s2"> stop)</span>
+</span><span class='line'><span class="s2">     stop</span>
+</span><span class='line'><span class="s2">     ;;</span>
+</span><span class='line'><span class="s2"> restart)</span>
+</span><span class='line'><span class="s2">     stop</span>
+</span><span class='line'><span class="s2">     start</span>
+</span><span class='line'><span class="s2">     ;;</span>
+</span><span class='line'><span class="s2"> version)</span>
+</span><span class='line'><span class="s2">     version</span>
+</span><span class='line'><span class="s2">     ;;</span>
+</span><span class='line'><span class="s2"> status)</span>
+</span><span class='line'><span class="s2">     status -p $pidfile $servicename</span>
+</span><span class='line'><span class="s2">     RETVAL=$?</span>
+</span><span class='line'><span class="s2">     ;;</span>
+</span><span class='line'><span class="s2"> *)</span>
+</span><span class='line'><span class="s2">     echo $&quot;</span>Usage: <span class="nv">$0</span> <span class="o">{</span>start|stop|restart|version|status<span class="o">}</span><span class="err">&quot;</span>
+</span><span class='line'>      <span class="nv">RETVAL</span><span class="o">=</span>1
+</span><span class='line'><span class="k">esac</span>
+</span><span class='line'><span class="nb">exit</span> <span class="nv">$RETVAL</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-25T13:06:00-07:00" pubdate data-updated="true">Jul 25<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tomcat/'>Tomcat</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/" title="Next Post: Different content in Rails based on UserAgent">Different content in Rails based on UserAgent &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/15/testing-logstash-grok-filters/">Testing Logstash grok filters</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/10/14/why-postgresql/">Why PostgreSQL?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/">Different content in Rails based on UserAgent</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/07/25/tomcat-init-script-for-ubuntu/">Tomcat init script for Ubuntu</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'organicveggie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100016775815082041155?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sean Laurent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
