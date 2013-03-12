@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T14:35:25-07:00</updated>
+  <updated>2013-03-12T15:22:13-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -769,6 +769,151 @@ grok.match(text).captures()
 </span><span class='line'>      <span class="nv">RETVAL</span><span class="o">=</span>1
 </span><span class='line'><span class="k">esac</span>
 </span><span class='line'><span class="nb">exit</span> <span class="nv">$RETVAL</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby mixin for the Enum pattern]]></title>
+    <link href="http://organicveggie.github.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
+    <updated>2010-06-03T14:27:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
+    <content type="html"><![CDATA[<p>Sometimes you just want to use an Enum. Unfortunately, if you&#8217;re a Ruby developer, Ruby does not offer a native enum structure.</p>
+
+<!-- more -->
+
+
+<p>Here&#8217;s a simple approach using a mixin module:</p>
+
+<figure class='code'><figcaption><span>Enum.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">Enum</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">const_missing</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">[</span><span class="n">key</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">add_enum</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span> <span class="o">||=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="no">NameValuePair</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">each</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="k">yield</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">enums</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">.</span><span class="n">keys</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">enum_values</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">.</span><span class="n">values</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_enum_hash</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@enum_hash</span><span class="o">[</span><span class="n">key</span><span class="o">.</span><span class="n">upcase</span><span class="o">.</span><span class="n">to_sym</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>Enum</code> mixin depends on a <code>NameValuePair</code> class to hold the data:</p>
+
+<figure class='code'><figcaption><span>NameValuePair.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">NameValuePair</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:label</span><span class="p">,</span> <span class="ss">:value</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@label</span> <span class="o">=</span> <span class="n">label</span>
+</span><span class='line'>    <span class="vi">@value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first</span>
+</span><span class='line'>    <span class="vi">@label</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last</span>
+</span><span class='line'>    <span class="vi">@value</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I included first and last methods to better support the <code>select</code> and <code>options_for_select</code> helper methods in Rails. Here&#8217;s how you might use it:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FooEnum</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">Enum</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nb">self</span><span class="o">.</span><span class="n">add_enum</span><span class="p">(</span><span class="ss">:APPLE</span><span class="p">,</span> <span class="s2">&quot;Apple&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="nb">self</span><span class="o">.</span><span class="n">add_enum</span><span class="p">(</span><span class="ss">:PEAR</span><span class="p">,</span> <span class="s2">&quot;Pear&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="nb">self</span><span class="o">.</span><span class="n">add_enum</span><span class="p">(</span><span class="ss">:ALL</span><span class="p">,</span> <span class="s2">&quot;All Fruit&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:APPLE</span> <span class="o">==&gt;</span> <span class="c1">#&lt;NameValuePair @value=&quot;apple&quot;, @label=&quot;Apple&quot;&gt;</span>
+</span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:ALL</span><span class="o">.</span><span class="n">value</span> <span class="o">==&gt;</span> <span class="s2">&quot;all&quot;</span>
+</span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:ALL</span><span class="o">.</span><span class="n">label</span> <span class="o">==&gt;</span> <span class="s2">&quot;All Fruit&quot;</span>
+</span><span class='line'><span class="no">FooEnum</span><span class="o">.</span><span class="n">find_by_key</span><span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="c1">#&lt;NameValuePair @value=&quot;apple&quot;, @label=&quot;Apple&quot;&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
