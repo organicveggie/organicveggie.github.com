@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T11:40:29-07:00</updated>
+  <updated>2013-03-12T11:43:17-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Sean Laurent]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
