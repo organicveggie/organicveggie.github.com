@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Struts Redirect w/Parameters Part 2 - Blind Squirrel</title>
+  <title>Exception Handling Framework for J2EE Applications - Blind Squirrel</title>
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="In an earlier post, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2 &hellip;">
+  <meta name="description" content="OnJava has an interesting article on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2">
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Struts Redirect w/Parameters Part 2</h1>
+      <h1 class="entry-title">Exception Handling Framework for J2EE Applications</h1>
     
     
       <p class="meta">
@@ -84,31 +84,16 @@
   
 
 
-<time datetime="2006-06-04T23:00:00-07:00" pubdate data-updated="true">Jun 4<span>th</span>, 2006</time>
+<time datetime="2006-05-24T23:00:00-07:00" pubdate data-updated="true">May 24<span>th</span>, 2006</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>In an <a href="/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
+<div class="entry-content"><p>OnJava has an interesting <a href="http://www.onjava.com/pub/a/onjava/2006/01/11/exception-handling-framework-for-j2ee.html">article</a> on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base class for exceptions and a basic handler for all requests that includes dispatcher to pass the request along to the appropriate method.The fundamental idea is fairly sound and the idea of including a context to allow reuse of generic exceptions seems like a strong idea.</p>
 
-<p>Here&#8217;s a basic example from inside the execute method in an Action.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionRedirect</span> <span class="n">redirect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActionRedirect</span><span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">));</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span><span class="s">&quot;myvalue&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span><span class="s">&quot;fornothing&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;answer&quot;</span><span class="o">,</span><span class="s">&quot;42&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="k">return</span> <span class="n">redirect</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>ActionRedirect</code> class is basically the same as my ForwardParameter class and is probably preferable.</p>
+<p>My concern is that in a large project, the use of a &#8220;context&#8221; may make it difficult to figure out which specific message code is used in a given place. The generic exception handling is especially beneficial for the &#8220;this should never happen&#8221; cases where there isn&#8217;t much the app can do about the exception, but should still handle it in a robust manner.</p>
 </div>
 
 
@@ -131,12 +116,12 @@
   
 
 
-<time datetime="2006-06-04T23:00:00-07:00" pubdate data-updated="true">Jun 4<span>th</span>, 2006</time>
+<time datetime="2006-05-24T23:00:00-07:00" pubdate data-updated="true">May 24<span>th</span>, 2006</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>, <a class='category' href='/blog/categories/struts/'>Struts</a>, <a class='category' href='/blog/categories/web-development/'>Web Development</a>
+    <a class='category' href='/blog/categories/j2ee/'>J2EE</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>, <a class='category' href='/blog/categories/web-development/'>Web Development</a>
   
 </span>
 
@@ -145,7 +130,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -158,10 +143,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/" title="Previous Post: Exception Handling Framework for J2EE Applications">&laquo; Exception Handling Framework for J2EE Applications</a>
+        <a class="basic-alignment left" href="/blog/2006/01/23/struts-redirect-w-slash-parameters/" title="Previous Post: Struts Redirect w/Parameters">&laquo; Struts Redirect w/Parameters</a>
       
       
-        <a class="basic-alignment right" href="/blog/2007/08/19/dry-associations-in-rails/" title="Next Post: DRY Associations in Rails">DRY Associations in Rails &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/" title="Next Post: Struts Redirect w/Parameters Part 2">Struts Redirect w/Parameters Part 2 &raquo;</a>
       
     </p>
   </footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T18:57:07-07:00</updated>
+  <updated>2013-03-12T19:02:15-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -1461,6 +1461,17 @@ grok.match(text).captures()
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[Exception Handling Framework for J2EE Applications]]></title>
+    <link href="http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/"/>
+    <updated>2006-05-24T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications</id>
+    <content type="html"><![CDATA[<p>OnJava has an interesting <a href="http://www.onjava.com/pub/a/onjava/2006/01/11/exception-handling-framework-for-j2ee.html">article</a> on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base class for exceptions and a basic handler for all requests that includes dispatcher to pass the request along to the appropriate method.The fundamental idea is fairly sound and the idea of including a context to allow reuse of generic exceptions seems like a strong idea.</p>
+
+<p>My concern is that in a large project, the use of a &#8220;context&#8221; may make it difficult to figure out which specific message code is used in a given place. The generic exception handling is especially beneficial for the &#8220;this should never happen&#8221; cases where there isn&#8217;t much the app can do about the exception, but should still handle it in a robust manner.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters]]></title>
     <link href="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
     <updated>2006-01-23T23:00:00-08:00</updated>
@@ -1665,6 +1676,19 @@ grok.match(text).captures()
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Prefactoring]]></title>
+    <link href="http://organicveggie.github.com/blog/2005/12/27/prefactoring/"/>
+    <updated>2005-12-27T23:00:00-08:00</updated>
+    <id>http://organicveggie.github.com/blog/2005/12/27/prefactoring</id>
+    <content type="html"><![CDATA[<p>Prefactoring is the process of using your experience to write better code.  Specifically, writing code that can be refactored more easily, that is easier to read and easier to maintain.</p>
+
+<p>The article is available on <a href="http://www.oreillynet.com/">oreillynet.com</a>:</p>
+
+<p><a href="http://www.oreillynet.com/pub/a/network/2005/11/15/what-is-prefactoring.html">What Is Prefactoring?</a> by Ken Pugh, author of <a href="http://www.oreilly.com/catalog/prefactoring/">Prefactoring</a>.</p>
 ]]></content>
   </entry>
   

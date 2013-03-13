@@ -1,10 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://organicveggie.github.com/blog/2005/12/27/prefactoring/</loc>
+        <lastmod>2013-03-12T19:02:08-07:00</lastmod>
+    </url>
+    <url>
         <loc>
             http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/
         </loc>
         <lastmod>2013-03-12T18:55:25-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/
+        </loc>
+        <lastmod>2013-03-12T18:59:07-07:00</lastmod>
     </url>
     <url>
         <loc>
@@ -78,11 +88,11 @@
     </url>
     <url>
         <loc>http://organicveggie.github.com/blog/archives/</loc>
-        <lastmod>2013-03-12T18:56:43-07:00</lastmod>
+        <lastmod>2013-03-12T19:02:08-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/</loc>
-        <lastmod>2013-03-12T18:56:43-07:00</lastmod>
+        <lastmod>2013-03-12T19:02:08-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/robots.txt</loc>
