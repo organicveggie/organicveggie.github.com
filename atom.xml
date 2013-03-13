@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T17:08:54-07:00</updated>
+  <updated>2013-03-12T18:57:07-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -1407,6 +1407,263 @@ grok.match(text).captures()
 </span><span class='line'>         <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;ignoreUnresolvablePlaceholders&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
 </span><span class='line'><span class="nt">&lt;/bean&gt;</span> 
 </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[DRY Associations in Rails]]></title>
+    <link href="http://organicveggie.github.com/blog/2007/08/19/dry-associations-in-rails/"/>
+    <updated>2007-08-19T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2007/08/19/dry-associations-in-rails</id>
+    <content type="html"><![CDATA[<p>I found a nice little article from a few months ago on <a href="http://therailsway.com/">The Rails Way</a>. Written by koz, <a href="http://therailsway.com/2007/3/26/association-proxies-are-your-friend">Assocation Proxies</a> talks about some Best Practices for using assocations within Rails. I really felt the suggestions hit the proverbial nail on the head in terms of following the DRY principles. The first suggestion was on the best way to restrict access to user specific information. It&#8217;s incredibly useful to take advantage your RESTful patterns and make a single call like:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@todo_list</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">todo_lists</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, I also loved the final suggestion in Case Three: using a has_many with a condition on it:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:completed_lists</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;TodoList&quot;</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Excellent!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Struts Redirect w/Parameters Part 2]]></title>
+    <link href="http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
+    <updated>2006-06-04T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
+    <content type="html"><![CDATA[<p>In an <a href="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
+
+<p>Here&#8217;s a basic example from inside the execute method in an Action.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionRedirect</span> <span class="n">redirect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActionRedirect</span><span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span><span class="s">&quot;myvalue&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span><span class="s">&quot;fornothing&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;answer&quot;</span><span class="o">,</span><span class="s">&quot;42&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">redirect</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>ActionRedirect</code> class is basically the same as my ForwardParameter class and is probably preferable.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Struts Redirect w/Parameters]]></title>
+    <link href="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
+    <updated>2006-01-23T23:00:00-08:00</updated>
+    <id>http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
+    <content type="html"><![CDATA[<p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unfortunately, this doesn’t provide a mechanism for passing request parameters to the target. So what can you do if you want to redirect to another page and pass some parameters along? You use an additional class:</p>
+
+<figure class='code'><figcaption><span>ForwardParameters.java </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ForwardParameters</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">Map</span> <span class="n">params</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">ForwardParameters</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Add a single parameter and value.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @param paramName     Parameter name</span>
+</span><span class='line'><span class="cm">   * @param paramValue    Parameter value</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @return A reference to this object.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">ForwardParameters</span> <span class="nf">add</span><span class="o">(</span><span class="n">String</span> <span class="n">paramName</span><span class="o">,</span> <span class="n">String</span> <span class="n">paramValue</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">paramName</span><span class="o">,</span><span class="n">paramValue</span><span class="o">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Add a set of parameters and values.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @param paramMap  Map containing parameter names and values.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @return A reference to this object.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">ForwardParameters</span> <span class="nf">add</span><span class="o">(</span><span class="n">Map</span> <span class="n">paramMap</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="n">Iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">paramMap</span><span class="o">.</span><span class="na">keySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">paramName</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">paramName</span><span class="o">,</span> <span class="n">paramMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">paramName</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Add parameters to a provided ActionForward.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @param forward    The ActionForward object to add parameters to.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * @return ActionForward with parameters added to the URL.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">ActionForward</span> <span class="nf">forward</span><span class="o">(</span><span class="n">ActionForward</span> <span class="n">forward</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="n">StringBuffer</span> <span class="n">path</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">(</span><span class="n">forward</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>      <span class="c1">//add first parameter, if avaliable</span>
+</span><span class='line'>      <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span> <span class="n">entry</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">path</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;?&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//add other parameters</span>
+</span><span class='line'>      <span class="k">while</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>        <span class="n">entry</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;&amp;amp;&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nf">ActionForward</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are some examples of using ForwardParameters:</p>
+
+<p>Long form:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">ForwardParameters</span> <span class="n">fwdParams</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ForwardParameters</span><span class="o">();</span>
+</span><span class='line'><span class="n">fwdParams</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">fwdParams</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">fwdParams</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">forward</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Concise form:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="k">return</span> <span class="k">new</span> <span class="nf">ForwardParameters</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">).</span><span class="na">forward</span><span class="o">(</span><span class="n">forward</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ultra concise form:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="k">new</span> <span class="nf">ForwardParameters</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">).</span><span class="na">forward</span><span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is based on a suggestion I found on <a href="http://www.experts-exchange.com/">Experts-Exchange</a> by <a href="http://www.experts-exchange.com/Programming/Programming_Languages/Java/Q_20830927.html">dualsoul</a>.</p>
+
+<hr />
+
+<p>Edit June 5th, 2006:</p>
+
+<p>As someone just pointed out to me this morning, you can use the <code>ActionRedirect</code> class instead of my <code>ForwardParameters</code> class. According to the JavaDocs, <code>ActionRedirect</code> was added in Struts 1.2.7 and is:</p>
+
+<blockquote><p>&#8230; a subclass of ActionForward which is designed for use in redirecting requests, with support for adding parameters at runtime.</p><footer><strong>JavaDocs</strong></footer></blockquote>
+
+
 
 ]]></content>
   </entry>

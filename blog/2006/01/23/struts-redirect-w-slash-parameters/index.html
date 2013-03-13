@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blind Squirrel</title>
+  <title>Struts Redirect w/Parameters - Blind Squirrel</title>
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="A few months back I got a new 12.1&#8221; System76 Darter laptop and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I &hellip;">
+  <meta name="description" content="If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://organicveggie.github.com/blog/page/2">
+  <link rel="canonical" href="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
@@ -63,212 +63,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/">Kubuntu 9.10 Dual Monitors</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-12-06T11:12:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A few months back I got a new <a href="http://system76.com/product_info.php?cPath=28&amp;products_id=76">12.1&#8221; System76 Darter laptop</a> and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I wanted was to have my laptop LCD on the left at 1280x800 and my ViewSonic LCD panel on the right running at 1680x1050. Apparently I&#8217;m old-skool, because I&#8217;m used to hacking away at my <code>xorg.conf</code> just to get dual monitor support to work under Linux. Somehow I never knew about <a href="http://www.x.org/wiki/Projects/XRandR">xrandr</a>, KRandR, etc.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/">Spring PropertyPlaceholderConfigurer Beans</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-05-04T23:00:00-07:00" pubdate data-updated="true">May 4<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I found a scenario today where we had two different <code>PropertyPlaceHolderConfigurer</code> beans declared in two separate XML files. Unfortunately, the second property file wasn’t getting loaded, so we would get errors about Spring being unable to resolve particular properties.</p>
-
-<p>I found this great post summarizing the solution:</p>
-
-<p><a href="http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/">http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/</a></p>
-
-<p>Basically, you have to update the definition for the first <code>PropertyPlaceHolderConfigurer</code> bean that gets loaded and add the <code>ignoreUnresolvablePlaceholders</code> property:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;mailProps&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>         <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;location&quot;</span> <span class="na">value=</span><span class="s">&quot;classpath:mail.properties&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>         <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;ignoreUnresolvablePlaceholders&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;/bean&gt;</span> 
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2007/08/19/dry-associations-in-rails/">DRY Associations in Rails</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2007-08-19T23:00:00-07:00" pubdate data-updated="true">Aug 19<span>th</span>, 2007</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I found a nice little article from a few months ago on <a href="http://therailsway.com/">The Rails Way</a>. Written by koz, <a href="http://therailsway.com/2007/3/26/association-proxies-are-your-friend">Assocation Proxies</a> talks about some Best Practices for using assocations within Rails. I really felt the suggestions hit the proverbial nail on the head in terms of following the DRY principles. The first suggestion was on the best way to restrict access to user specific information. It&#8217;s incredibly useful to take advantage your RESTful patterns and make a single call like:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@todo_list</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">todo_lists</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Of course, I also loved the final suggestion in Case Three: using a has_many with a condition on it:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:completed_lists</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;TodoList&quot;</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Excellent!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/">Struts Redirect w/Parameters Part 2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2006-06-04T23:00:00-07:00" pubdate data-updated="true">Jun 4<span>th</span>, 2006</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In an <a href="/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
-
-<p>Here&#8217;s a basic example from inside the execute method in an Action.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionRedirect</span> <span class="n">redirect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActionRedirect</span><span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">));</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span><span class="s">&quot;myvalue&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span><span class="s">&quot;fornothing&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">redirect</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">&quot;answer&quot;</span><span class="o">,</span><span class="s">&quot;42&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="k">return</span> <span class="n">redirect</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>ActionRedirect</code> class is basically the same as my ForwardParameter class and is probably preferable.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2006/01/23/struts-redirect-w-slash-parameters/">Struts Redirect w/Parameters</a></h1>
+      <h1 class="entry-title">Struts Redirect w/Parameters</h1>
     
     
       <p class="meta">
@@ -291,7 +91,7 @@
   </header>
 
 
-  <div class="entry-content"><p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
+<div class="entry-content"><p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
@@ -492,20 +292,63 @@
 
 
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2006-01-23T23:00:00-08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2006</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>, <a class='category' href='/blog/categories/struts/'>Struts</a>, <a class='category' href='/blog/categories/web-development/'>Web Development</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/">Newer &rarr;</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/" title="Next Post: Struts Redirect w/Parameters Part 2">Struts Redirect w/Parameters Part 2 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -538,7 +381,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
@@ -579,6 +422,7 @@
 
   
 </aside>
+
 
     </div>
   </div>

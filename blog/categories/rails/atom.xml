@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T17:08:54-07:00</updated>
+  <updated>2013-03-12T18:57:07-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -308,6 +308,27 @@
 </span><span class='line'><span class="ss">FooEnum</span><span class="p">:</span><span class="ss">:ALL</span><span class="o">.</span><span class="n">label</span> <span class="o">==&gt;</span> <span class="s2">&quot;All Fruit&quot;</span>
 </span><span class='line'><span class="no">FooEnum</span><span class="o">.</span><span class="n">find_by_key</span><span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="c1">#&lt;NameValuePair @value=&quot;apple&quot;, @label=&quot;Apple&quot;&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[DRY Associations in Rails]]></title>
+    <link href="http://organicveggie.github.com/blog/2007/08/19/dry-associations-in-rails/"/>
+    <updated>2007-08-19T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2007/08/19/dry-associations-in-rails</id>
+    <content type="html"><![CDATA[<p>I found a nice little article from a few months ago on <a href="http://therailsway.com/">The Rails Way</a>. Written by koz, <a href="http://therailsway.com/2007/3/26/association-proxies-are-your-friend">Assocation Proxies</a> talks about some Best Practices for using assocations within Rails. I really felt the suggestions hit the proverbial nail on the head in terms of following the DRY principles. The first suggestion was on the best way to restrict access to user specific information. It's incredibly useful to take advantage your RESTful patterns and make a single call like:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@todo_list</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">todo_lists</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Of course, I also loved the final suggestion in Case Three: using a has_many with a condition on it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:completed_lists</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;TodoList&quot;</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Excellent!</p>
 ]]></content>
   </entry>
   
