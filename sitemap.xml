@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/
+        </loc>
+        <lastmod>2013-03-12T17:08:12-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://organicveggie.github.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
         <lastmod>2013-03-12T17:03:46-07:00</lastmod>
     </url>
@@ -56,11 +62,11 @@
     </url>
     <url>
         <loc>http://organicveggie.github.com/blog/archives/</loc>
-        <lastmod>2013-03-12T17:03:46-07:00</lastmod>
+        <lastmod>2013-03-12T17:08:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/</loc>
-        <lastmod>2013-03-12T17:03:46-07:00</lastmod>
+        <lastmod>2013-03-12T17:08:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/robots.txt</loc>

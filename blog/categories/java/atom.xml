@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T17:04:30-07:00</updated>
+  <updated>2013-03-12T17:08:54-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -184,6 +184,37 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>I got the idea and the important code from an article titled <a href="http://softwareas.com/injecting-html-into-an-iframe">Inject HTML into an IFrame</a> from <a href="http://softwareas.com/">Software As She's Developed</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring PropertyPlaceholderConfigurer beans]]></title>
+    <link href="http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
+    <updated>2008-05-04T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
+    <content type="html"><![CDATA[<p>So I found a scenario today where we had two different <code>PropertyPlaceHolderConfigurer</code> beans declared in two separate XML files. Unfortunately, the second property file wasn’t getting loaded, so we would get errors about Spring being unable to resolve particular properties.</p>
+
+<p>I found this great post summarizing the solution:</p>
+
+<p><a href="http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/">http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/</a></p>
+
+<p>Basically, you have to update the definition for the first <code>PropertyPlaceHolderConfigurer</code> bean that gets loaded and add the <code>ignoreUnresolvablePlaceholders</code> property:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;mailProps&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span>     <span class="ni">&amp;lt;</span>property name=&quot;location&quot; value=&quot;classpath:mail.properties&quot;/<span class="ni">&amp;gt;</span>
+</span><span class='line'>     <span class="ni">&amp;lt;</span>property name=&quot;ignoreUnresolvablePlaceholders&quot; value=&quot;true&quot;/<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

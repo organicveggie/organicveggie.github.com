@@ -4,7 +4,7 @@
   <title><![CDATA[Blind Squirrel]]></title>
   <link href="http://organicveggie.github.com/atom.xml" rel="self"/>
   <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-12T17:04:30-07:00</updated>
+  <updated>2013-03-12T17:08:54-07:00</updated>
   <id>http://organicveggie.github.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -1382,6 +1382,32 @@ grok.match(text).captures()
 
 
 <p>Place this in <code>/etc/X11/Xsession.d</code> as <code>45custom_xrandr-settings</code> and it will automatically run.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring PropertyPlaceholderConfigurer beans]]></title>
+    <link href="http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
+    <updated>2008-05-04T23:00:00-07:00</updated>
+    <id>http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
+    <content type="html"><![CDATA[<p>So I found a scenario today where we had two different <code>PropertyPlaceHolderConfigurer</code> beans declared in two separate XML files. Unfortunately, the second property file wasn’t getting loaded, so we would get errors about Spring being unable to resolve particular properties.</p>
+
+<p>I found this great post summarizing the solution:</p>
+
+<p><a href="http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/">http://dotal.wordpress.com/2007/09/14/mulitple-propertyplaceholderconfigurer-configurations/</a></p>
+
+<p>Basically, you have to update the definition for the first <code>PropertyPlaceHolderConfigurer</code> bean that gets loaded and add the <code>ignoreUnresolvablePlaceholders</code> property:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;mailProps&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;location&quot;</span> <span class="na">value=</span><span class="s">&quot;classpath:mail.properties&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;ignoreUnresolvablePlaceholders&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/bean&gt;</span> 
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
