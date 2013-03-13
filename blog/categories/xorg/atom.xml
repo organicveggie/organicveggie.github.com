@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Xorg | Blind Squirrel]]></title>
+  <link href="http://organicveggie.github.com/blog/categories/xorg/atom.xml" rel="self"/>
+  <link href="http://organicveggie.github.com/"/>
+  <updated>2013-03-12T17:04:30-07:00</updated>
+  <id>http://organicveggie.github.com/</id>
+  <author>
+    <name><![CDATA[Sean Laurent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kubuntu 9.10 Dual Monitors]]></title>
+    <link href="http://organicveggie.github.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/"/>
+    <updated>2009-12-06T11:12:00-08:00</updated>
+    <id>http://organicveggie.github.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors</id>
+    <content type="html"><![CDATA[<p>A few months back I got a new <a href="http://system76.com/product_info.php?cPath=28&amp;products_id=76">12.1" System76 Darter laptop</a> and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I wanted was to have my laptop LCD on the left at 1280x800 and my ViewSonic LCD panel on the right running at 1680x1050. Apparently I'm old-skool, because I'm used to hacking away at my <code>xorg.conf</code> just to get dual monitor support to work under Linux. Somehow I never knew about <a href="http://www.x.org/wiki/Projects/XRandR">xrandr</a>, KRandR, etc.</p>
+
+<!-- more -->
+
+
+<p><a href="http://www.thinkwiki.org/wiki/ThinkWiki">ThinkWiki</a> has a great <a href="http://www.thinkwiki.org/wiki/Xorg_RandR_1.2">article about using XRandR</a> that really helped me out. When I first launched Kubuntu the two screens were mirrored. So, I tried to use KRandR to set the screens side by side. Unfortunately, it seemed to be confused - it saw there were two outputs, but it thought they were the same screen. This is where the ThinkWiki article came in handy.</p>
+
+<p>With the later versions of Xorg, Ubuntu doesn't even include an <code>xorg.conf</code>. Instead of even monkeying around with Xorg, I just used xrandr. There were three key steps:</p>
+
+<h2>Identify Outputs</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>xrandr -q
+</span><span class='line'>Screen 0: minimum 320 x 200, current 2960 x 1050, maximum 8192 x 8192
+</span><span class='line'>VGA1 connected 1680x1050+1280+0 <span class="o">(</span>normal left inverted right x axis y axis<span class="o">)</span> 474mm x 296mm
+</span><span class='line'>   1680x1050      60.0&lt;em&gt;+
+</span><span class='line'>   1280x1024      75.0
+</span><span class='line'>   1152x864       75.0
+</span><span class='line'>   1024x768       75.1     70.1     60.0
+</span><span class='line'>   832x624        74.6
+</span><span class='line'>   800x600        72.2     75.0     60.3     56.2
+</span><span class='line'>   640x480        72.8     75.0     66.7     60.0
+</span><span class='line'>   720x400        70.1
+</span><span class='line'>LVDS1 connected 1280x800+0+0 <span class="o">(</span>normal left inverted right x axis y axis<span class="o">)</span> 261mm x 163mm
+</span><span class='line'>   1280x800       60.0&lt;/em&gt;+
+</span><span class='line'>   1024x768       60.0
+</span><span class='line'>   800x600        60.3
+</span><span class='line'>   640x480        59.9
+</span><span class='line'>DP1 disconnected <span class="o">(</span>normal left inverted right x axis y axis<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This shows I have two main outputs connected right now: VGA1 and LVDS1. Under Ubuntu 9.04 (Jaunty), my outputs were labeled VGA and LVDS.</p>
+
+<h2>Disable secondary output</h2>
+
+<p>Once we know the name of the outputs, we can disable the secondary output. This is the key step to getting a large virtual desktop working without something like Xinerama. If you don't disable the secondary output, Xorg never seems to be able to successfully distinguish between the two outputs.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>xrandr --output VGA1 --off
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Re-enable both outputs</h2>
+
+<p>When we re-enable the outputs we can specify the location of the secondary display, relative to the primary. We can also let xrandr figure out the best resolution for each:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>xrandr --output LVDS --auto --output VGA --auto --right-of LVDS
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Voila. Finally, if you want to automate this, the <a href="http://www.thinkwiki.org/wiki/Xorg_RandR_1.2">ThinkWiki article</a> has a great little script you can use. However, I did have to modify it slightly ... I had to force the VGA1 output off before setting them both to auto. Without that, the secondary screen remained blank.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/X11/Xsession.d/45custom_xrandr-settings  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;If an external monitor is connected, place it with xrandr&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;External output may be <span class="s2">&quot;VGA&quot;</span> or <span class="s2">&quot;VGA-0&quot;</span> or <span class="s2">&quot;DVI-0&quot;</span> or <span class="s2">&quot;TMDS-1&quot;</span>&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;EXTERNAL_OUTPUT<span class="o">=</span><span class="s2">&quot;VGA1&quot;</span>
+</span><span class='line'><span class="nv">INTERNAL_OUTPUT</span><span class="o">=</span><span class="s2">&quot;LVDS1&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;EXTERNAL_LOCATION may be one of: left, right, above, or below&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;EXTERNAL_LOCATION<span class="o">=</span><span class="s2">&quot;right&quot;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;case <span class="s2">&quot;$EXTERNAL_LOCATION&quot;</span> in&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;   left|LEFT<span class="o">)</span>
+</span><span class='line'>           <span class="nv">EXTERNAL_LOCATION</span><span class="o">=</span><span class="s2">&quot;--left-of $INTERNAL_OUTPUT&quot;</span>
+</span><span class='line'>           ;;
+</span><span class='line'>   right|RIGHT<span class="o">)</span>
+</span><span class='line'>           <span class="nv">EXTERNAL_LOCATION</span><span class="o">=</span><span class="s2">&quot;--right-of $INTERNAL_OUTPUT&quot;</span>
+</span><span class='line'>           ;;
+</span><span class='line'>   top|TOP|above|ABOVE<span class="o">)</span>
+</span><span class='line'>           <span class="nv">EXTERNAL_LOCATION</span><span class="o">=</span><span class="s2">&quot;--above $INTERNAL_OUTPUT&quot;</span>
+</span><span class='line'>           ;;
+</span><span class='line'>   bottom|BOTTOM|below|BELOW<span class="o">)</span>
+</span><span class='line'>           <span class="nv">EXTERNAL_LOCATION</span><span class="o">=</span><span class="s2">&quot;--below $INTERNAL_OUTPUT&quot;</span>
+</span><span class='line'>           ;;
+</span><span class='line'>   *<span class="o">)</span>
+</span><span class='line'>           <span class="nv">EXTERNAL_LOCATION</span><span class="o">=</span><span class="s2">&quot;--left-of $INTERNAL_OUTPUT&quot;</span>
+</span><span class='line'>           ;;
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;esac&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;xrandr |grep <span class="nv">$EXTERNAL_OUTPUT</span> | grep <span class="s2">&quot; connected &quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq 0 <span class="o">]</span>; <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;xrandr --output <span class="nv">$EXTERNAL_OUTPUT</span> --off
+</span><span class='line'>xrandr --output <span class="nv">$INTERNAL_OUTPUT</span> --auto --output <span class="nv">$EXTERNAL_OUTPUT</span> --auto <span class="nv">$EXTERNAL_LOCATION</span>
+</span><span class='line'><span class="c"># Alternative command in case of trouble:</span>
+</span><span class='line'><span class="c"># (sleep 2; xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --auto $EXTERNAL_LOCATION) &amp;amp;amp;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;else&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;xrandr --output <span class="nv">$INTERNAL_OUTPUT</span> --auto --output <span class="nv">$EXTERNAL_OUTPUT</span> --off
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;fi
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Place this in <code>/etc/X11/Xsession.d</code> as <code>45custom_xrandr-settings</code> and it will automatically run.</p>
+]]></content>
+  </entry>
+  
+</feed>

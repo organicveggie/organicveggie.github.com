@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://organicveggie.github.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
+        <lastmod>2013-03-12T17:03:46-07:00</lastmod>
+    </url>
+    <url>
         <loc>
             http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/
         </loc>
@@ -52,11 +56,11 @@
     </url>
     <url>
         <loc>http://organicveggie.github.com/blog/archives/</loc>
-        <lastmod>2013-03-12T15:53:31-07:00</lastmod>
+        <lastmod>2013-03-12T17:03:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/</loc>
-        <lastmod>2013-03-12T15:53:31-07:00</lastmod>
+        <lastmod>2013-03-12T17:03:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://organicveggie.github.com/robots.txt</loc>

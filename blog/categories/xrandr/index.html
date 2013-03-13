@@ -5,15 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Subversion: File or directory is out of date; try updating - Blind Squirrel</title>
+  <title>Category: xrandr - Blind Squirrel</title>
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error: 1
-2
-3
-4
-5 &hellip;">
+  <meta name="description" content="Category: xrandr">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating">
+  <link rel="canonical" href="http://organicveggie.github.comblog/categories/xrandr">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
@@ -68,129 +64,35 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Subversion: File or Directory Is Out of Date; Try Updating</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-01T18:36:00-08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2010</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Xrandr</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>svn ci -m <span class="s2">&quot;My commit message.&quot;</span>
-</span><span class='line'>Sending        src/Foo.java
-</span><span class='line'>svn: Commit failed <span class="o">(</span>details follow<span class="o">)</span>:
-</span><span class='line'>svn: File or directory <span class="s1">&#39;src/Foo.java&#39;</span> is out of date; try updating
-</span><span class='line'>svn: resource out of date; try updating
-</span></code></pre></td></tr></table></div></figure>
+  
+  <h2>2009</h2>
 
+<article>
+  
+<h1><a href="/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/">Kubuntu 9.10 Dual Monitors</a></h1>
+<time datetime="2009-12-06T11:12:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>06</span> <span class='year'>2009</span></time>
 
-<p>Although I was positive the file(s) were up to date, I ran an svn up just to be safe:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>svn up
-</span><span class='line'>At revision 10803.
-</span></code></pre></td></tr></table></div></figure>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/kde/'>KDE</a>, <a class='category' href='/blog/categories/kubuntu/'>Kubuntu</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>, <a class='category' href='/blog/categories/xorg/'>Xorg</a>, <a class='category' href='/blog/categories/xrandr/'>xrandr</a></span>
+</footer>
 
 
-<p>Nothing changed. If I tried to commit again, I would get the same out of date error. Eventually I figured out that if I delete the folder containing the problematic file, ran svn up to restore the working copy and re-edited (or restored from a backup) the modified file, the problem went away. This suggested an issue with the Subversion metadata, but this <a href="http://pageworthy.com/blog/2009/apr/14/subversion-says-your-file-or-directory-probably-ou/">blog post from Pageworthy</a> describes a much easier work around:</p>
-
-<blockquote><p>Delete the all-wcprops file from the .svn metadata folder for the offending file.</p><footer><strong>Pageworthy</strong> <cite><a href='http://pageworthy.com/blog/2009/apr/14/subversion-says-your-file-or-directory-probably-ou/'>pageworthy.com/blog/2009/apr/14/&hellip;</a></cite></footer></blockquote>
-
-
-<p>In other words, if Subversion complains about <code>src/com/mycompany/Foo.java</code>, then delete <code>src/com/mycompany/.svn/all-wcprops</code>.</p>
-
-<ul>
-<li>OS: Mac 10.6</li>
-<li>IDE: Eclipse 20090920-1017</li>
-<li>Subversive Team Provider: 0.7.8</li>
-<li>Subversive Connectors: 2.2.1</li>
-<li>SVNKit 1.3.0: 2.2.1</li>
-<li>Subversion: 1.6.6</li>
-</ul>
+</article>
 
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-01T18:36:00-08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/eclipse/'>Eclipse</a>, <a class='category' href='/blog/categories/subversion/'>Subversion</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/" data-via="organicveggie" data-counturl="http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/" title="Previous Post: Kubuntu 9.10 Dual Monitors">&laquo; Kubuntu 9.10 Dual Monitors</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/" title="Next Post: Embedding HTML Document in an IFRAME with GWT">Embedding HTML Document in an IFRAME with GWT &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>
