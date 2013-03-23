@@ -1,113 +1,109 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://organicveggie.github.com/blog/2005/12/27/prefactoring/</loc>
+        <loc>http://blog.bealetech.com/blog/2005/12/27/prefactoring/</loc>
         <lastmod>2013-03-12T19:02:08-07:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/
-        </loc>
+        <loc>http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/</loc>
         <lastmod>2013-03-12T18:55:25-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/
+            http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/
         </loc>
         <lastmod>2013-03-12T18:59:07-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/
+            http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/
         </loc>
         <lastmod>2013-03-12T18:56:43-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2007/08/19/dry-associations-in-rails/</loc>
+        <loc>http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails/</loc>
         <lastmod>2013-03-12T18:47:30-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/
+            http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/
         </loc>
         <lastmod>2013-03-12T17:08:12-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
+        <loc>http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
         <lastmod>2013-03-12T17:03:46-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/
+            http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/
         </loc>
         <lastmod>2013-03-12T15:53:31-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/
+            http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/
         </loc>
         <lastmod>2013-03-12T15:44:36-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2010/03/10/flashvars-broken-in-ie8/</loc>
+        <loc>http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/</loc>
         <lastmod>2013-03-12T15:34:46-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/
+            http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/
         </loc>
         <lastmod>2013-03-12T15:29:03-07:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://organicveggie.github.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/
-        </loc>
+        <loc>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/</loc>
         <lastmod>2013-03-12T15:21:40-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/</loc>
+        <loc>http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/</loc>
         <lastmod>2013-03-12T14:34:36-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://organicveggie.github.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/
+            http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/
         </loc>
         <lastmod>2013-03-12T14:28:32-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2010/10/14/why-postgresql/</loc>
+        <loc>http://blog.bealetech.com/blog/2010/10/14/why-postgresql/</loc>
         <lastmod>2013-03-12T13:42:36-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2012/05/15/testing-logstash-grok-filters/</loc>
+        <loc>http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/</loc>
         <lastmod>2013-03-12T12:35:13-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/2012/05/28/distributed-graphite-on-ec2/</loc>
+        <loc>http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/</loc>
         <lastmod>2013-03-12T12:16:15-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/about/</loc>
+        <loc>http://blog.bealetech.com/about/</loc>
         <lastmod>2013-03-23T13:04:01-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/blog/archives/</loc>
+        <loc>http://blog.bealetech.com/blog/archives/</loc>
         <lastmod>2013-03-12T19:02:08-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/</loc>
+        <loc>http://blog.bealetech.com/</loc>
         <lastmod>2013-03-12T19:02:08-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/presentations/</loc>
+        <loc>http://blog.bealetech.com/presentations/</loc>
         <lastmod>2013-03-12T22:25:34-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/projects/</loc>
+        <loc>http://blog.bealetech.com/projects/</loc>
         <lastmod>2013-03-23T13:06:30-07:00</lastmod>
     </url>
     <url>
-        <loc>http://organicveggie.github.com/robots.txt</loc>
+        <loc>http://blog.bealetech.com/robots.txt</loc>
         <lastmod>2013-03-12T11:40:02-07:00</lastmod>
     </url>
 </urlset>

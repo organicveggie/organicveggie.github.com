@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Struts | Blind Squirrel]]></title>
-  <link href="http://organicveggie.github.com/blog/categories/struts/atom.xml" rel="self"/>
-  <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-23T13:09:40-07:00</updated>
-  <id>http://organicveggie.github.com/</id>
+  <link href="http://blog.bealetech.com/blog/categories/struts/atom.xml" rel="self"/>
+  <link href="http://blog.bealetech.com/"/>
+  <updated>2013-03-23T14:32:57-07:00</updated>
+  <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters Part 2]]></title>
-    <link href="http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
+    <link href="http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
     <updated>2006-06-04T23:00:00-07:00</updated>
-    <id>http://organicveggie.github.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
+    <id>http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
     <content type="html"><![CDATA[<p>In an <a href="/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
 
 <p>Here's a basic example from inside the execute method in an Action.</p>
@@ -40,9 +40,9 @@
   
   <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters]]></title>
-    <link href="http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
+    <link href="http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
     <updated>2006-01-23T23:00:00-08:00</updated>
-    <id>http://organicveggie.github.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
+    <id>http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
     <content type="html"><![CDATA[<p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

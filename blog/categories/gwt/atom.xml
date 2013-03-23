@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: GWT | Blind Squirrel]]></title>
-  <link href="http://organicveggie.github.com/blog/categories/gwt/atom.xml" rel="self"/>
-  <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-23T13:09:40-07:00</updated>
-  <id>http://organicveggie.github.com/</id>
+  <link href="http://blog.bealetech.com/blog/categories/gwt/atom.xml" rel="self"/>
+  <link href="http://blog.bealetech.com/"/>
+  <updated>2013-03-23T14:32:57-07:00</updated>
+  <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
-    <link href="http://organicveggie.github.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
+    <link href="http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
     <updated>2010-01-25T16:10:00-08:00</updated>
-    <id>http://organicveggie.github.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
+    <id>http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
     <content type="html"><![CDATA[<p>While working on a recent project in GWT, I needed to embed a full HTML document inside an IFRAME. And I didn't want to specify a remote URL for the IFRAME - I actually wanted to shove the HTML content directly into the IFRAME.</p>
 
 <!-- more -->

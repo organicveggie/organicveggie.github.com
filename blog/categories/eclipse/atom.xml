@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Eclipse | Blind Squirrel]]></title>
-  <link href="http://organicveggie.github.com/blog/categories/eclipse/atom.xml" rel="self"/>
-  <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-23T13:09:40-07:00</updated>
-  <id>http://organicveggie.github.com/</id>
+  <link href="http://blog.bealetech.com/blog/categories/eclipse/atom.xml" rel="self"/>
+  <link href="http://blog.bealetech.com/"/>
+  <updated>2013-03-23T14:32:57-07:00</updated>
+  <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Subversion: File or directory is out of date; try updating]]></title>
-    <link href="http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/"/>
+    <link href="http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/"/>
     <updated>2010-01-01T18:36:00-08:00</updated>
-    <id>http://organicveggie.github.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating</id>
+    <id>http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating</id>
     <content type="html"><![CDATA[<p>I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

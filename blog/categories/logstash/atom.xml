@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Logstash | Blind Squirrel]]></title>
-  <link href="http://organicveggie.github.com/blog/categories/logstash/atom.xml" rel="self"/>
-  <link href="http://organicveggie.github.com/"/>
-  <updated>2013-03-23T13:09:40-07:00</updated>
-  <id>http://organicveggie.github.com/</id>
+  <link href="http://blog.bealetech.com/blog/categories/logstash/atom.xml" rel="self"/>
+  <link href="http://blog.bealetech.com/"/>
+  <updated>2013-03-23T14:32:57-07:00</updated>
+  <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Testing Logstash grok filters]]></title>
-    <link href="http://organicveggie.github.com/blog/2012/05/15/testing-logstash-grok-filters/"/>
+    <link href="http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/"/>
     <updated>2012-05-15T13:25:00-07:00</updated>
-    <id>http://organicveggie.github.com/blog/2012/05/15/testing-logstash-grok-filters</id>
+    <id>http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters</id>
     <content type="html"><![CDATA[<p>Logstash is an outstanding tool for collecting and parsing logfiles. In particular, the grok filter is extremely useful to extract specific pieces of data from your logfiles. Once you pull data out of the logfiles into fields, you can easily search on those fields. Unfortunately, I find the format for patterns in grok filter challenging to write correctly. If you mess up your pattern, you will end up with the dreaded "_grokparsefailure" tag on your log entry. What you need is a way to test your patterns before adding them to Logstash.</p>
 
 <!-- more -->
