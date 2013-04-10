@@ -1,0 +1,579 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pushing to Maven Central with Sonatype - Blind Squirrel</title>
+  <meta name="author" content="Sean Laurent">
+
+  
+  <meta name="description" content="Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use Sonatype to help publish the jars &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Blind Squirrel</a></h1>
+  
+    <h2>Once in a while, even a blind squirrel finds a nut.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.bealetech.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+  <li><a href="/presentations/">Presentations</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pushing to Maven Central With Sonatype</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-10T15:07:00-07:00" pubdate data-updated="true">Apr 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
+Most of the process is documented by Sonatype, which you can read about here:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide</a></p>
+
+<p>There were a few tricky parts that either weren&#8217;t documented well or I just found confusing. I have tried to document some of these parts below.</p>
+
+<!-- more -->
+
+
+<h1>Terminology</h1>
+
+<p>In case you&#8217;re as easily confused as I was, Sonatype uses three different terms when talking about pushing jars:</p>
+
+<ol>
+<li><strong>Deploy</strong> refers to deploying <em>snapshots</em> to Sonatype.</li>
+<li><strong>Staging</strong> refers to pushing potential release artifacts to Sonatype. Note that <em>staging</em> an artifact does not automatically push it to Maven Central.</li>
+<li><strong>Release</strong> refers to marking the artifacts for release on Sonatype&#8217;s Nexus server so that they get pushed to Maven Central.</li>
+</ol>
+
+
+<h1>Required Changes</h1>
+
+<h2>Artifacts</h2>
+
+<p>Pushing jars to Maven Central requires that you produce three artifacts:</p>
+
+<ol>
+<li>Main jar with compiled classes</li>
+<li>Sources jar</li>
+<li>Javadocs jar</li>
+</ol>
+
+
+<p>To automatically generate the second and third artifacts, add the following to the build plugins section of your <code>pom.xml</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>maven-source-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>2.1.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>attach-sources<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;goal&gt;</span>jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'><span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>maven-javadoc-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>2.8.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>attach-javadocs<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;goal&gt;</span>jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plugin&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Artifact Signing</h2>
+
+<p>Maven Central requires that you sign your released artifacts with GPG. Note that <em>snapshots</em> do not need to be signed. Sonatype has a thorough article on signing your artifacts:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven">How to Generate PGP Signatures With Maven</a></p>
+
+<p>The key steps are:</p>
+
+<ol>
+<li>Generate a key pair</li>
+<li>Distribute your public key</li>
+<li>Update your <code>pom.xml</code></li>
+</ol>
+
+
+<p>The first two steps are straightforward. The only trick with the third step is that you <em>only</em> want to sign artifacts during the release process. If you add the <code>maven-gpg-plugin</code> to your main, every single build will get signed and Maven will prompt you for your passphrase with every build. Instead, you can define a Maven profile with a specific name and include the <code>maven-gpg-plugin</code> there.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;profiles&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;profile&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;id&gt;</span>release-sign-artifacts<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;activation&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;property&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;name&gt;</span>performRelease<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/property&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/activation&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;artifactId&gt;</span>maven-gpg-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;id&gt;</span>sign-artifacts<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;phase&gt;</span>verify<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;goal&gt;</span>sign<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/profile&gt;</span>
+</span><span class='line'><span class="nt">&lt;/profiles&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>distributionManagement</h2>
+
+<p>Following the recommendation from Sonatype, you will remove the <code>&lt;repositories&gt;&lt;/repositories&gt;</code> section of your <code>pom.xml</code>. Once you do that, Maven no longer knows what server to use when <em>deploying</em> or <em>staging</em>. To compensate, you need to add a <code>distributionManagement</code> section:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;distributionManagement&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;snapshotRepository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;id&gt;</span>sonatype-nexus-snapshots<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots/<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/snapshotRepository&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;id&gt;</span>sonatype-nexus-staging<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/service/local/staging/deploy/maven2/<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'><span class="nt">&lt;/distributionManagement&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Sonatype Parent POM</h2>
+
+<p>You need to configure your <code>pom.xml</code> to inherit from the Sonatype Parent POM:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;parent&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>org.sonatype.oss<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>oss-parent<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>7<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'><span class="nt">&lt;/parent&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Deploying</h1>
+
+<p>Assuming you&#8217;ve followed the instructions from Sonatype and setup an account, you&#8217;re now ready to deploy snapshots. The process is simple:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mvn clean deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That will automatically clean, build and push your snapshot to Sonatype.</p>
+
+<h1>Releasing</h1>
+
+<p>Pushing a release jar to Maven Central consists of two parts: staging and releasing.</p>
+
+<h2>Staging</h2>
+
+<p>In this part we clean everything up; prepare for the build by creating a tag for the release and updating the pom.xml; perform the build; deploy the artifacts to Sonatype.</p>
+
+<p>The process consists of three commands:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mvn release:clean
+</span><span class='line'>mvn release:prepare
+</span><span class='line'>mvn release:perform
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>release:prepare</code> step will prompt you for release information. Here is some sample output from the 2.3.0 release of <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mvn release:prepare
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Scanning <span class="k">for </span>projects...
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Building Metrics Statsd Support 2.3.0-SNAPSHOT
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> --- maven-release-plugin:2.2.1:prepare <span class="o">(</span>default-cli<span class="o">)</span> @ metrics-statsd ---
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Verifying that there are no <span class="nb">local </span>modifications...
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span>   ignoring changes on: pom.xml.next, release.properties, pom.xml.releaseBackup, pom.xml.backup, pom.xml.branch, pom.xml.tag
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Executing: /bin/sh -c <span class="nb">cd</span> /Users/sean/src/metrics-statsd <span class="o">&amp;&amp;</span> git status
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Working directory: /Users/sean/src/metrics-statsd
+</span><span class='line'><span class="o">[</span>INFO<span class="o">]</span> Checking dependencies and plugins <span class="k">for </span>snapshots ...
+</span><span class='line'>What is the release version <span class="k">for</span> <span class="s2">&quot;Metrics Statsd Support&quot;</span>? <span class="o">(</span>com.bealetech:metrics-statsd<span class="o">)</span> 2.3.0: :
+</span><span class='line'>What is SCM release tag or label <span class="k">for</span> <span class="s2">&quot;Metrics Statsd Support&quot;</span>? <span class="o">(</span>com.bealetech:metrics-statsd<span class="o">)</span> v2.3.0: :
+</span><span class='line'>What is the new development version <span class="k">for</span> <span class="s2">&quot;Metrics Statsd Support&quot;</span>? <span class="o">(</span>com.bealetech:metrics-statsd<span class="o">)</span> 2.3.1-SNAPSHOT: :
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Releasing</h2>
+
+<p>Once the artifacts are staged on Sonatype&#8217;s Nexus, you need to go through a few annoying steps:</p>
+
+<ul>
+<li>Close out the staging release in Sonatype</li>
+<li>Release the artifacts in Sonatype</li>
+</ul>
+
+
+<p>That process is well documented (with images) by Sonatype:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt</a></p>
+
+<p>Within two hours, Sonatype will push the artifacts to Maven Centrl.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-10T15:07:00-07:00" pubdate data-updated="true">Apr 10<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/maven/'>Maven</a>, <a class='category' href='/blog/categories/programming/'>Programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/" data-via="organicveggie" data-counturl="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/28/distributed-graphite-on-ec2/" title="Previous Post: Distributed Graphite on EC2">&laquo; Distributed Graphite on EC2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/10/pushing-to-maven-central-with-sonatype/">Pushing to Maven Central with Sonatype</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/15/testing-logstash-grok-filters/">Testing Logstash grok filters</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/10/14/why-postgresql/">Why PostgreSQL?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/">Different content in Rails based on UserAgent</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul>
+    <li>
+      <a href="https://github.com/StudyBlue/ec2launcher">ec2launcher</a>
+      <p>EC2 instance launching tool</p>
+    </li>
+  </ul>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/organicveggie">@organicveggie</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'organicveggie',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100016775815082041155?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Sean Laurent -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

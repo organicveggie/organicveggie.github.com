@@ -9,7 +9,11 @@
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="A few months back I got a new 12.1&#8221; System76 Darter laptop and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I &hellip;">
+  <meta name="description" content="I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error: 1
+2
+3
+4
+5 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +72,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/">Subversion: File or Directory Is Out of Date; Try Updating</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-01T18:36:00-08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>svn ci -m <span class="s2">&quot;My commit message.&quot;</span>
+</span><span class='line'>Sending        src/Foo.java
+</span><span class='line'>svn: Commit failed <span class="o">(</span>details follow<span class="o">)</span>:
+</span><span class='line'>svn: File or directory <span class="s1">&#39;src/Foo.java&#39;</span> is out of date; try updating
+</span><span class='line'>svn: resource out of date; try updating
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although I was positive the file(s) were up to date, I ran an svn up just to be safe:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>svn up
+</span><span class='line'>At revision 10803.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nothing changed. If I tried to commit again, I would get the same out of date error. Eventually I figured out that if I delete the folder containing the problematic file, ran svn up to restore the working copy and re-edited (or restored from a backup) the modified file, the problem went away. This suggested an issue with the Subversion metadata, but this <a href="http://pageworthy.com/blog/2009/apr/14/subversion-says-your-file-or-directory-probably-ou/">blog post from Pageworthy</a> describes a much easier work around:</p>
+
+<blockquote><p>Delete the all-wcprops file from the .svn metadata folder for the offending file.</p><footer><strong>Pageworthy</strong> <cite><a href='http://pageworthy.com/blog/2009/apr/14/subversion-says-your-file-or-directory-probably-ou/'>pageworthy.com/blog/2009/apr/14/&hellip;</a></cite></footer></blockquote>
+
+
+<p>In other words, if Subversion complains about <code>src/com/mycompany/Foo.java</code>, then delete <code>src/com/mycompany/.svn/all-wcprops</code>.</p>
+
+<ul>
+<li>OS: Mac 10.6</li>
+<li>IDE: Eclipse 20090920-1017</li>
+<li>Subversive Team Provider: 0.7.8</li>
+<li>Subversive Connectors: 2.2.1</li>
+<li>SVNKit 1.3.0: 2.2.1</li>
+<li>Subversion: 1.6.6</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -594,6 +673,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/10/pushing-to-maven-central-with-sonatype/">Pushing to Maven Central with Sonatype</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/05/28/distributed-graphite-on-ec2/">Distributed Graphite on EC2</a>
       </li>
     
@@ -607,10 +690,6 @@
     
       <li class="post">
         <a href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/">Different content in Rails based on UserAgent</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2010/07/25/tomcat-init-script-for-ubuntu/">Tomcat init script for Ubuntu</a>
       </li>
     
   </ul>

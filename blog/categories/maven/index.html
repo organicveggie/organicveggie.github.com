@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Why PostgreSQL? - Blind Squirrel</title>
+  <title>Category: Maven - Blind Squirrel</title>
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="Quick overview of what PostgreSQL brings to the table that is not available in MySQL. Uses MVCC for all tables providing: Fully transactional &hellip;">
+  <meta name="description" content="Category: Maven">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.bealetech.com/blog/2010/10/14/why-postgresql">
+  <link rel="canonical" href="http://blog.bealetech.comblog/categories/maven">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Blind Squirrel" type="application/atom+xml">
@@ -67,158 +67,35 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Why PostgreSQL?</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-10-14T22:49:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2010</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Maven</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>Quick overview of what PostgreSQL brings to the table that is not available in MySQL.</p>
 
-<!-- more -->
+  
+  <h2>2013</h2>
 
+<article>
+  
+<h1><a href="/blog/2013/04/10/pushing-to-maven-central-with-sonatype/">Pushing to Maven Central with Sonatype</a></h1>
+<time datetime="2013-04-10T15:07:00-07:00" pubdate><span class='month'>Apr</span> <span class='day'>10</span> <span class='year'>2013</span></time>
 
-<ul>
-<li>Uses MVCC for all tables providing:
-
-<ul>
-<li>Fully transactional including ACID compliance for consistency</li>
-<li>Nested transactions</li>
-</ul>
-</li>
-<li>SQL 2008 compliant</li>
-<li>Foreign keys for any table</li>
-<li>Advanced table partitioning</li>
-<li>Highly sophisticated query planner/optimizer
-
-<ul>
-<li>Can split up a query for execution across multiple CPUs simultaneously</li>
-<li>Collects internal statistics for adaptive query planning</li>
-<li>Special genetic query optimizer for queries with large numbers of joins</li>
-<li>Supports multiple indexes per table per query</li>
-</ul>
-</li>
-<li>Advanced support for query &amp; results caching</li>
-<li>Hot/online backup</li>
-<li>Point-in-time-recovery</li>
-<li>Write-ahead logs for fault-tolerance</li>
-<li>Tablespaces for controlling physical disk layout</li>
-<li>Native asynchronous replication guaranteeing identical results on all machines. Supports both:
-
-<ul>
-<li>Streaming replication</li>
-<li>Hot standby</li>
-</ul>
-</li>
-<li>Partial indexes</li>
-<li>Index creation/removal does not lock table</li>
-<li>Full support for constraints</li>
-<li>Transactional DDL - changes like table modifications can placed inside a transaction and rolled back</li>
-</ul>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/maven/'>Maven</a>, <a class='category' href='/blog/categories/programming/'>Programming</a></span>
+</footer>
 
 
-<p>Specific disadvantages to MySQL:</p>
-
-<ul>
-<li>Confusion with table types - MyISAM vs InnoDB</li>
-<li>Designed to scale out not up - does not utilize larger numbers of cores efficiently and cannot spread queries across cores</li>
-<li>Hot backup of is difficult for databases containing both InnoDB and MyISAM</li>
-<li>Replication is mediocre and error prone</li>
-<li>InnoDB stores the data with the primary key, so any queries using secondary indices are slower</li>
-<li>Subqueries not well optimized</li>
-<li>Only uses a single index per table per query</li>
-<li>Index creation/removal requires an exclusive write lock</li>
-<li>MyISAM only offers table level locking which causes severe performance degradation under heavy concurrency</li>
-<li>Limited support for constraints</li>
-<li>No transactional DDL - changes like table modifications are automatically committed and cannot be rolled back</li>
-</ul>
-
-
-<p>MySQL offers the following advantages over PostgreSQL:</p>
-
-<ul>
-<li>MyISAM tables can offer better read performance, specifically for simple SELECT queries, but at the cost of no support for transactions, foreign keys or data guarantees</li>
-<li>COUNT(*) on MyISAM is very fast and slow on PostgreSQL</li>
-<li>INSERT IGNORE and INSERT&#8230;ON DUPLICATE UPDATE</li>
-</ul>
+</article>
 
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Sean Laurent</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-10-14T22:49:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/database/'>Database</a>, <a class='category' href='/blog/categories/development/'>Development</a>, <a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/postgres/'>Postgres</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.bealetech.com/blog/2010/10/14/why-postgresql/" data-via="organicveggie" data-counturl="http://blog.bealetech.com/blog/2010/10/14/why-postgresql/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2010/08/11/different-content-in-rails-based-on-useragent/" title="Previous Post: Different content in Rails based on UserAgent">&laquo; Different content in Rails based on UserAgent</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/05/15/testing-logstash-grok-filters/" title="Next Post: Testing Logstash grok filters">Testing Logstash grok filters &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

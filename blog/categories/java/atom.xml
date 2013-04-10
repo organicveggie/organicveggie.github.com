@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Blind Squirrel]]></title>
   <link href="http://blog.bealetech.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://blog.bealetech.com/"/>
-  <updated>2013-03-23T14:34:47-07:00</updated>
+  <updated>2013-04-10T16:12:29-07:00</updated>
   <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
+    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <updated>2013-04-10T15:07:00-07:00</updated>
+    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
+Most of the process is documented by Sonatype, which you can read about here:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide</a></p>
+
+<p>There were a few tricky parts that either weren't documented well or I just found confusing. I have tried to document some of these parts below.</p>
+
+<!-- more -->
+
+
+<h1>Terminology</h1>
+
+<p>In case you're as easily confused as I was, Sonatype uses three different terms when talking about pushing jars:</p>
+
+<ol>
+<li><strong>Deploy</strong> refers to deploying <em>snapshots</em> to Sonatype.</li>
+<li><strong>Staging</strong> refers to pushing potential release artifacts to Sonatype. Note that <em>staging</em> an artifact does not automatically push it to Maven Central.</li>
+<li><strong>Release</strong> refers to marking the artifacts for release on Sonatype's Nexus server so that they get pushed to Maven Central.</li>
+</ol>
+
+
+<h1>Required Changes</h1>
+
+<h2>Artifacts</h2>
+
+<p>Pushing jars to Maven Central requires that you produce three artifacts:</p>
+
+<ol>
+<li>Main jar with compiled classes</li>
+<li>Sources jar</li>
+<li>Javadocs jar</li>
+</ol>
+
+
+<p>To automatically generate the second and third artifacts, add the following to the build plugins section of your <code>pom.xml</code>:</p>
+
+<p>```xml
+<plugin></p>
+
+<pre><code>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+&lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;
+&lt;version&gt;2.1.2&lt;/version&gt;
+&lt;executions&gt;
+    &lt;execution&gt;
+        &lt;id&gt;attach-sources&lt;/id&gt;
+        &lt;goals&gt;
+            &lt;goal&gt;jar&lt;/goal&gt;
+        &lt;/goals&gt;
+    &lt;/execution&gt;
+&lt;/executions&gt;
+</code></pre>
+
+<p></plugin>
+<plugin></p>
+
+<pre><code>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+&lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+&lt;version&gt;2.8.1&lt;/version&gt;
+&lt;executions&gt;
+    &lt;execution&gt;
+        &lt;id&gt;attach-javadocs&lt;/id&gt;
+        &lt;goals&gt;
+            &lt;goal&gt;jar&lt;/goal&gt;
+        &lt;/goals&gt;
+    &lt;/execution&gt;
+&lt;/executions&gt;
+</code></pre>
+
+<p></plugin>
+```</p>
+
+<h2>Artifact Signing</h2>
+
+<p>Maven Central requires that you sign your released artifacts with GPG. Note that <em>snapshots</em> do not need to be signed. Sonatype has a thorough article on signing your artifacts:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven">How to Generate PGP Signatures With Maven</a></p>
+
+<p>The key steps are:</p>
+
+<ol>
+<li>Generate a key pair</li>
+<li>Distribute your public key</li>
+<li>Update your <code>pom.xml</code></li>
+</ol>
+
+
+<p>The first two steps are straightforward. The only trick with the third step is that you <em>only</em> want to sign artifacts during the release process. If you add the <code>maven-gpg-plugin</code> to your main, every single build will get signed and Maven will prompt you for your passphrase with every build. Instead, you can define a Maven profile with a specific name and include the <code>maven-gpg-plugin</code> there.</p>
+
+<p>```xml
+<profiles>
+  <profile></p>
+
+<pre><code>&lt;id&gt;release-sign-artifacts&lt;/id&gt;
+&lt;activation&gt;
+  &lt;property&gt;
+    &lt;name&gt;performRelease&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/activation&gt;
+&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.1&lt;/version&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;id&gt;sign-artifacts&lt;/id&gt;
+          &lt;phase&gt;verify&lt;/phase&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;sign&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+
+<p>  </profile>
+</profiles>
+```</p>
+
+<h2>distributionManagement</h2>
+
+<p>Following the recommendation from Sonatype, you will remove the <code>&lt;repositories&gt;&lt;/repositories&gt;</code> section of your <code>pom.xml</code>. Once you do that, Maven no longer knows what server to use when <em>deploying</em> or <em>staging</em>. To compensate, you need to add a <code>distributionManagement</code> section:</p>
+
+<p>```xml</p>
+
+<pre><code>&lt;distributionManagement&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;sonatype-nexus-snapshots&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots/&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+    &lt;repository&gt;
+        &lt;id&gt;sonatype-nexus-staging&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+
+<p>```</p>
+
+<h2>Sonatype Parent POM</h2>
+
+<p>You need to configure your <code>pom.xml</code> to inherit from the Sonatype Parent POM:</p>
+
+<p>```xml
+<parent></p>
+
+<pre><code>&lt;groupId&gt;org.sonatype.oss&lt;/groupId&gt;
+&lt;artifactId&gt;oss-parent&lt;/artifactId&gt;
+&lt;version&gt;7&lt;/version&gt;
+</code></pre>
+
+<p></parent>
+```</p>
+
+<h1>Deploying</h1>
+
+<p>Assuming you've followed the instructions from Sonatype and setup an account, you're now ready to deploy snapshots. The process is simple:</p>
+
+<p><code>bash
+mvn clean deploy
+</code></p>
+
+<p>That will automatically clean, build and push your snapshot to Sonatype.</p>
+
+<h1>Releasing</h1>
+
+<p>Pushing a release jar to Maven Central consists of two parts: staging and releasing.</p>
+
+<h2>Staging</h2>
+
+<p>In this part we clean everything up; prepare for the build by creating a tag for the release and updating the pom.xml; perform the build; deploy the artifacts to Sonatype.</p>
+
+<p>The process consists of three commands:</p>
+
+<p><code>bash
+mvn release:clean
+mvn release:prepare
+mvn release:perform
+</code></p>
+
+<p>The <code>release:prepare</code> step will prompt you for release information. Here is some sample output from the 2.3.0 release of <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>:</p>
+
+<p><code>bash
+$ mvn release:prepare
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Metrics Statsd Support 2.3.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-release-plugin:2.2.1:prepare (default-cli) @ metrics-statsd ---
+[INFO] Verifying that there are no local modifications...
+[INFO]   ignoring changes on: pom.xml.next, release.properties, pom.xml.releaseBackup, pom.xml.backup, pom.xml.branch, pom.xml.tag
+[INFO] Executing: /bin/sh -c cd /Users/sean/src/metrics-statsd &amp;&amp; git status
+[INFO] Working directory: /Users/sean/src/metrics-statsd
+[INFO] Checking dependencies and plugins for snapshots ...
+What is the release version for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) 2.3.0: :
+What is SCM release tag or label for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) v2.3.0: :
+What is the new development version for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) 2.3.1-SNAPSHOT: :
+</code></p>
+
+<h2>Releasing</h2>
+
+<p>Once the artifacts are staged on Sonatype's Nexus, you need to go through a few annoying steps:</p>
+
+<ul>
+<li>Close out the staging release in Sonatype</li>
+<li>Release the artifacts in Sonatype</li>
+</ul>
+
+
+<p>That process is well documented (with images) by Sonatype:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt</a></p>
+
+<p>Within two hours, Sonatype will push the artifacts to Maven Centrl.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
@@ -251,230 +479,6 @@
     <content type="html"><![CDATA[<p>OnJava has an interesting <a href="http://www.onjava.com/pub/a/onjava/2006/01/11/exception-handling-framework-for-j2ee.html">article</a> on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base class for exceptions and a basic handler for all requests that includes dispatcher to pass the request along to the appropriate method.The fundamental idea is fairly sound and the idea of including a context to allow reuse of generic exceptions seems like a strong idea.</p>
 
 <p>My concern is that in a large project, the use of a "context" may make it difficult to figure out which specific message code is used in a given place. The generic exception handling is especially beneficial for the "this should never happen" cases where there isn't much the app can do about the exception, but should still handle it in a robust manner.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Struts Redirect w/Parameters]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
-    <updated>2006-01-23T23:00:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
-    <content type="html"><![CDATA[<p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Unfortunately, this doesn’t provide a mechanism for passing request parameters to the target. So what can you do if you want to redirect to another page and pass some parameters along? You use an additional class:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ForwardParameters.java </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ForwardParameters</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="n">Map</span> <span class="n">params</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="kd">public</span> <span class="n">ForwardParameters</span><span class="o">()</span>
-</span><span class='line'>  <span class="o">{&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">/&lt;</span><span class="n">em</span><span class="o">&gt;*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="n">Add</span> <span class="n">a</span> <span class="n">single</span> <span class="n">parameter</span> <span class="n">and</span> <span class="n">value</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@param</span> <span class="n">paramName</span>     <span class="n">Parameter</span> <span class="n">name</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@param</span> <span class="n">paramValue</span>    <span class="n">Parameter</span> <span class="n">value</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@return</span> <span class="n">A</span> <span class="n">reference</span> <span class="n">to</span> <span class="k">this</span> <span class="n">object</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">ForwardParameters</span> <span class="nf">add</span><span class="o">(</span><span class="n">String</span> <span class="n">paramName</span><span class="o">,</span> <span class="n">String</span> <span class="n">paramValue</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">{&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">paramName</span><span class="o">,</span><span class="n">paramValue</span><span class="o">);</span>
-</span><span class='line'><span class="k">return</span> <span class="k">this</span><span class="o">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">/&lt;</span><span class="n">em</span><span class="o">&gt;*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="n">Add</span> <span class="n">a</span> <span class="n">set</span> <span class="n">of</span> <span class="n">parameters</span> <span class="n">and</span> <span class="n">values</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@param</span> <span class="n">paramMap</span>  <span class="n">Map</span> <span class="n">containing</span> <span class="n">parameter</span> <span class="n">names</span> <span class="n">and</span> <span class="n">values</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@return</span> <span class="n">A</span> <span class="n">reference</span> <span class="n">to</span> <span class="k">this</span> <span class="n">object</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">ForwardParameters</span> <span class="nf">add</span><span class="o">(</span><span class="n">Map</span> <span class="n">paramMap</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">{&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">paramMap</span><span class="o">.</span><span class="na">keySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
-</span><span class='line'><span class="k">while</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="n">String</span> <span class="n">paramName</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">paramName</span><span class="o">,</span> <span class="n">paramMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">paramName</span><span class="o">));</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="k">this</span><span class="o">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">/&lt;</span><span class="n">em</span><span class="o">&gt;*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="n">Add</span> <span class="n">parameters</span> <span class="n">to</span> <span class="n">a</span> <span class="n">provided</span> <span class="n">ActionForward</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@param</span> <span class="n">forward</span>    <span class="n">The</span> <span class="n">ActionForward</span> <span class="n">object</span> <span class="n">to</span> <span class="n">add</span> <span class="n">parameters</span> <span class="n">to</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">*</span>
-</span><span class='line'>   <span class="o">*</span> <span class="nd">@return</span> <span class="n">ActionForward</span> <span class="n">with</span> <span class="n">parameters</span> <span class="n">added</span> <span class="n">to</span> <span class="n">the</span> <span class="n">URL</span><span class="o">.</span>
-</span><span class='line'>   <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">ActionForward</span> <span class="nf">forward</span><span class="o">(</span><span class="n">ActionForward</span> <span class="n">forward</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">{&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">StringBuffer</span> <span class="n">path</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">(</span><span class="n">forward</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
-</span><span class='line'><span class="k">if</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="c1">//add first parameter, if avaliable</span>
-</span><span class='line'>  <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span> <span class="n">entry</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
-</span><span class='line'>  <span class="n">path</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;?&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//add other parameters</span>
-</span><span class='line'>  <span class="k">while</span> <span class="o">(</span><span class="n">itr</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>    <span class="n">entry</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">)</span> <span class="n">itr</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
-</span><span class='line'>    <span class="n">path</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;&amp;amp;amp;&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="k">new</span> <span class="nf">ActionForward</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Here are some examples of using ForwardParameters:</p>
-
-<p>Long form:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">ForwardParameters</span> <span class="n">fwdParams</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ForwardParameters</span><span class="o">();</span>
-</span><span class='line'><span class="n">fwdParams</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">fwdParams</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="k">return</span> <span class="n">fwdParams</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">forward</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Concise form:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="k">return</span> <span class="k">new</span> <span class="nf">ForwardParameters</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">).</span><span class="na">forward</span><span class="o">(</span><span class="n">forward</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Ultra concise form:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="k">new</span> <span class="nf">ForwardParameters</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;myparam&quot;</span><span class="o">,</span> <span class="s">&quot;myvalue&quot;</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;something&quot;</span><span class="o">,</span> <span class="s">&quot;fornothing&quot;</span><span class="o">).</span><span class="na">forward</span><span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">findForward</span><span class="o">(</span><span class="s">&quot;success&quot;</span><span class="o">));</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>This is based on a suggestion I found on <a href="http://www.experts-exchange.com/">Experts-Exchange</a> by <a href="http://www.experts-exchange.com/Programming/Programming_Languages/Java/Q_20830927.html">dualsoul</a>.</p>
-
-<hr />
-
-<p>Edit June 5th, 2006:</p>
-
-<p>As someone just pointed out to me this morning, you can use the <code>ActionRedirect</code> class instead of my <code>ForwardParameters</code> class. According to the JavaDocs, <code>ActionRedirect</code> was added in Struts 1.2.7 and is:</p>
-
-<p><blockquote><p>... a subclass of ActionForward which is designed for use in redirecting requests, with support for adding parameters at runtime.</p><footer><strong>JavaDocs</strong></footer></blockquote></p>
 ]]></content>
   </entry>
   

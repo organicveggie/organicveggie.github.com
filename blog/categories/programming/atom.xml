@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | Blind Squirrel]]></title>
   <link href="http://blog.bealetech.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://blog.bealetech.com/"/>
-  <updated>2013-03-23T14:34:47-07:00</updated>
+  <updated>2013-04-10T16:12:29-07:00</updated>
   <id>http://blog.bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
+    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <updated>2013-04-10T15:07:00-07:00</updated>
+    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
+Most of the process is documented by Sonatype, which you can read about here:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide</a></p>
+
+<p>There were a few tricky parts that either weren't documented well or I just found confusing. I have tried to document some of these parts below.</p>
+
+<!-- more -->
+
+
+<h1>Terminology</h1>
+
+<p>In case you're as easily confused as I was, Sonatype uses three different terms when talking about pushing jars:</p>
+
+<ol>
+<li><strong>Deploy</strong> refers to deploying <em>snapshots</em> to Sonatype.</li>
+<li><strong>Staging</strong> refers to pushing potential release artifacts to Sonatype. Note that <em>staging</em> an artifact does not automatically push it to Maven Central.</li>
+<li><strong>Release</strong> refers to marking the artifacts for release on Sonatype's Nexus server so that they get pushed to Maven Central.</li>
+</ol>
+
+
+<h1>Required Changes</h1>
+
+<h2>Artifacts</h2>
+
+<p>Pushing jars to Maven Central requires that you produce three artifacts:</p>
+
+<ol>
+<li>Main jar with compiled classes</li>
+<li>Sources jar</li>
+<li>Javadocs jar</li>
+</ol>
+
+
+<p>To automatically generate the second and third artifacts, add the following to the build plugins section of your <code>pom.xml</code>:</p>
+
+<p>```xml
+<plugin></p>
+
+<pre><code>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+&lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;
+&lt;version&gt;2.1.2&lt;/version&gt;
+&lt;executions&gt;
+    &lt;execution&gt;
+        &lt;id&gt;attach-sources&lt;/id&gt;
+        &lt;goals&gt;
+            &lt;goal&gt;jar&lt;/goal&gt;
+        &lt;/goals&gt;
+    &lt;/execution&gt;
+&lt;/executions&gt;
+</code></pre>
+
+<p></plugin>
+<plugin></p>
+
+<pre><code>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+&lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+&lt;version&gt;2.8.1&lt;/version&gt;
+&lt;executions&gt;
+    &lt;execution&gt;
+        &lt;id&gt;attach-javadocs&lt;/id&gt;
+        &lt;goals&gt;
+            &lt;goal&gt;jar&lt;/goal&gt;
+        &lt;/goals&gt;
+    &lt;/execution&gt;
+&lt;/executions&gt;
+</code></pre>
+
+<p></plugin>
+```</p>
+
+<h2>Artifact Signing</h2>
+
+<p>Maven Central requires that you sign your released artifacts with GPG. Note that <em>snapshots</em> do not need to be signed. Sonatype has a thorough article on signing your artifacts:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven">How to Generate PGP Signatures With Maven</a></p>
+
+<p>The key steps are:</p>
+
+<ol>
+<li>Generate a key pair</li>
+<li>Distribute your public key</li>
+<li>Update your <code>pom.xml</code></li>
+</ol>
+
+
+<p>The first two steps are straightforward. The only trick with the third step is that you <em>only</em> want to sign artifacts during the release process. If you add the <code>maven-gpg-plugin</code> to your main, every single build will get signed and Maven will prompt you for your passphrase with every build. Instead, you can define a Maven profile with a specific name and include the <code>maven-gpg-plugin</code> there.</p>
+
+<p>```xml
+<profiles>
+  <profile></p>
+
+<pre><code>&lt;id&gt;release-sign-artifacts&lt;/id&gt;
+&lt;activation&gt;
+  &lt;property&gt;
+    &lt;name&gt;performRelease&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/activation&gt;
+&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.1&lt;/version&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;id&gt;sign-artifacts&lt;/id&gt;
+          &lt;phase&gt;verify&lt;/phase&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;sign&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+
+<p>  </profile>
+</profiles>
+```</p>
+
+<h2>distributionManagement</h2>
+
+<p>Following the recommendation from Sonatype, you will remove the <code>&lt;repositories&gt;&lt;/repositories&gt;</code> section of your <code>pom.xml</code>. Once you do that, Maven no longer knows what server to use when <em>deploying</em> or <em>staging</em>. To compensate, you need to add a <code>distributionManagement</code> section:</p>
+
+<p>```xml</p>
+
+<pre><code>&lt;distributionManagement&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;sonatype-nexus-snapshots&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots/&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+    &lt;repository&gt;
+        &lt;id&gt;sonatype-nexus-staging&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+
+<p>```</p>
+
+<h2>Sonatype Parent POM</h2>
+
+<p>You need to configure your <code>pom.xml</code> to inherit from the Sonatype Parent POM:</p>
+
+<p>```xml
+<parent></p>
+
+<pre><code>&lt;groupId&gt;org.sonatype.oss&lt;/groupId&gt;
+&lt;artifactId&gt;oss-parent&lt;/artifactId&gt;
+&lt;version&gt;7&lt;/version&gt;
+</code></pre>
+
+<p></parent>
+```</p>
+
+<h1>Deploying</h1>
+
+<p>Assuming you've followed the instructions from Sonatype and setup an account, you're now ready to deploy snapshots. The process is simple:</p>
+
+<p><code>bash
+mvn clean deploy
+</code></p>
+
+<p>That will automatically clean, build and push your snapshot to Sonatype.</p>
+
+<h1>Releasing</h1>
+
+<p>Pushing a release jar to Maven Central consists of two parts: staging and releasing.</p>
+
+<h2>Staging</h2>
+
+<p>In this part we clean everything up; prepare for the build by creating a tag for the release and updating the pom.xml; perform the build; deploy the artifacts to Sonatype.</p>
+
+<p>The process consists of three commands:</p>
+
+<p><code>bash
+mvn release:clean
+mvn release:prepare
+mvn release:perform
+</code></p>
+
+<p>The <code>release:prepare</code> step will prompt you for release information. Here is some sample output from the 2.3.0 release of <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>:</p>
+
+<p><code>bash
+$ mvn release:prepare
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Metrics Statsd Support 2.3.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-release-plugin:2.2.1:prepare (default-cli) @ metrics-statsd ---
+[INFO] Verifying that there are no local modifications...
+[INFO]   ignoring changes on: pom.xml.next, release.properties, pom.xml.releaseBackup, pom.xml.backup, pom.xml.branch, pom.xml.tag
+[INFO] Executing: /bin/sh -c cd /Users/sean/src/metrics-statsd &amp;&amp; git status
+[INFO] Working directory: /Users/sean/src/metrics-statsd
+[INFO] Checking dependencies and plugins for snapshots ...
+What is the release version for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) 2.3.0: :
+What is SCM release tag or label for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) v2.3.0: :
+What is the new development version for "Metrics Statsd Support"? (com.bealetech:metrics-statsd) 2.3.1-SNAPSHOT: :
+</code></p>
+
+<h2>Releasing</h2>
+
+<p>Once the artifacts are staged on Sonatype's Nexus, you need to go through a few annoying steps:</p>
+
+<ul>
+<li>Close out the staging release in Sonatype</li>
+<li>Release the artifacts in Sonatype</li>
+</ul>
+
+
+<p>That process is well documented (with images) by Sonatype:</p>
+
+<p><a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt</a></p>
+
+<p>Within two hours, Sonatype will push the artifacts to Maven Centrl.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Different content in Rails based on UserAgent]]></title>
@@ -431,180 +659,6 @@
 </span><span class='line'>
 </span><span class='line'><span class="nt">&lt;p&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
-    <updated>2010-01-25T16:10:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
-    <content type="html"><![CDATA[<p>While working on a recent project in GWT, I needed to embed a full HTML document inside an IFRAME. And I didn't want to specify a remote URL for the IFRAME - I actually wanted to shove the HTML content directly into the IFRAME.</p>
-
-<!-- more -->
-
-
-<p>Initially I thought it was trivial: create an <code>IFrameElement</code> and call <code>setInnerHTML</code>.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">IFrameElement</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nx">Document</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">createIFrameElement</span><span class="p">();</span>
-</span><span class='line'><span class="nx">iframe</span><span class="p">.</span><span class="nx">setInnerHTML</span><span class="p">(</span><span class="nx">htmlContent</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Unfortunately, that doesn't work. It doesn't cause any errors, but it doesn't actually fill in the iframe. Instead, you have to use native javascript to write into the document object for the iframe:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">private</span> <span class="kr">final</span> <span class="kr">native</span> <span class="k">void</span> <span class="nx">fillIframe</span><span class="p">(</span><span class="nx">IFrameElement</span> <span class="nx">iframe</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">content</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nb">document</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">if</span><span class="p">(</span><span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">;</span> <span class="c1">// For NS6</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">doc</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">;</span> <span class="c1">// For IE5.5 and IE6</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>   <span class="c1">// Put the content in the iframe</span>
-</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
-</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Voila! However, one of the side effects is that the iframe doesn't include any CSS unless your embedded HTML references a stylesheet. If you want to manually add a reference to a specific stylesheet, you can do that through native javascript as well:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">private</span> <span class="kr">final</span> <span class="kr">native</span> <span class="k">void</span> <span class="nx">addHeadElement</span><span class="p">(</span><span class="nx">IFrameElement</span> <span class="nx">iframe</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">cssUrl</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">body</span><span class="p">;</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// FF</span>
-</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">designMode</span><span class="o">=</span> <span class="s2">&quot;On&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">execCommand</span><span class="p">(</span><span class="s1">&#39;styleWithCSS&#39;</span><span class="p">,</span><span class="kc">false</span><span class="p">,</span><span class="s1">&#39;false&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">body</span><span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// IE</span>
-</span><span class='line'>  <span class="nx">body</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">body</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">body</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s2">&quot;custom-body-classname&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">head</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">previousSibling</span><span class="p">;</span>
-</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nx">head</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">head</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;head&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">head</span><span class="p">,</span> <span class="nx">body</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">fileref</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;rel&quot;</span><span class="p">,</span> <span class="s2">&quot;stylesheet&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;text/css&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">fileref</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">cssUrl</span><span class="p">);</span>
-</span><span class='line'><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">fileref</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'><span class="p">};}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>There's still one more problem. You can't use either of native methods until the IFRAME element has been attached to the DOM. The easiest way around this is to add the IFRAME element to a panel and over the onLoad() method for the panel:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">final</span> <span class="nx">IFrameElement</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nx">Document</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">createIFrameElement</span><span class="p">();</span>
-</span><span class='line'><span class="nx">FlowPanel</span> <span class="nx">innerBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FlowPanel</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="err">@</span><span class="nx">Override</span>
-</span><span class='line'><span class="kr">protected</span> <span class="k">void</span> <span class="nx">onLoad</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kr">super</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Fill the IFrame with the content html</span>
-</span><span class='line'>    <span class="nx">fillIframe</span><span class="p">(</span><span class="nx">iframe</span><span class="p">,</span> <span class="nx">contentHtml</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Add a HEAD element to the IFrame with the appropriate CSS</span>
-</span><span class='line'>    <span class="nx">addHeadElement</span><span class="p">(</span><span class="nx">iframe</span><span class="p">,</span> <span class="nx">cssUrl</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">};</span>
-</span><span class='line'><span class="nx">innerBox</span><span class="p">.</span><span class="nx">getElement</span><span class="p">().</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">iframe</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I got the idea and the important code from an article titled <a href="http://softwareas.com/injecting-html-into-an-iframe">Inject HTML into an IFrame</a> from <a href="http://softwareas.com/">Software As She's Developed</a>.</p>
 ]]></content>
   </entry>
   
