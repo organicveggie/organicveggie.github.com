@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Chef | Blind Squirrel]]></title>
+  <link href="http://blog.bealetech.com/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://blog.bealetech.com/"/>
+  <updated>2013-04-29T21:12:06-07:00</updated>
+  <id>http://blog.bealetech.com/</id>
+  <author>
+    <name><![CDATA[Sean Laurent]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Asgard and Mater Cookbooks]]></title>
+    <link href="http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/"/>
+    <updated>2013-04-29T21:00:00-07:00</updated>
+    <id>http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks</id>
+    <content type="html"><![CDATA[<p>Over at <a href="http://www.studyblue.com">StudyBlue</a>, we leverage <a href="http://www.opscode.com/chef/">Chef</a> pretty heavily for automation. Today we just open sourced two Chef cookbooks as a way to give back to the community that has supported us.</p>
+
+<!-- more -->
+
+
+<h2>Asgard</h2>
+
+<p><a href="https://github.com/StudyBlue/chef-asgard">https://github.com/StudyBlue/chef-asgard</a></p>
+
+<ul>
+<li>Chef cookbook for installing <a href="https://github.com/Netflix/asgard">Netflix Asgard</a>.</li>
+<li>Installs and configures Netflix Asgard with Java 6 and Tomcat 7.</li>
+<li>Can also proxy via Apache.</li>
+</ul>
+
+
+<h2>Mater</h2>
+
+<p><a href="https://github.com/StudyBlue/chef-mater">https://github.com/StudyBlue/chef-mater</a></p>
+
+<ul>
+<li>Chef cookbook for installing <a href="https://github.com/obfuscurity/mater">Mater</a>, a bridge between <a href="http://panic.com/statusboard/">StatusBoard</a> and <a href="http://graphite.wikidot.com/">Graphite</a>.</li>
+<li>Includes support for running Mater under <a href="http://unicorn.bogomips.org/">Unicorn</a> with Apache as a proxy.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
