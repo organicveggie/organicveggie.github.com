@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Chef | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/chef/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Asgard and Mater Cookbooks]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/"/>
+    <link href="http://bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/"/>
     <updated>2013-04-29T21:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks</id>
+    <id>http://bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks</id>
     <content type="html"><![CDATA[<p>Over at <a href="http://www.studyblue.com">StudyBlue</a>, we leverage <a href="http://www.opscode.com/chef/">Chef</a> pretty heavily for automation. Today we just open sourced two Chef cookbooks as a way to give back to the community that has supported us.</p>
 
 <!-- more -->

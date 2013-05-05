@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Design patterns | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/design-patterns/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/design-patterns/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby mixin for the Enum pattern]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
+    <link href="http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
     <updated>2010-06-03T14:27:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
+    <id>http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
     <content type="html"><![CDATA[<p>Sometimes you just want to use an Enum. Unfortunately, if you're a Ruby developer, Ruby does not offer a native enum structure.</p>
 
 <!-- more -->

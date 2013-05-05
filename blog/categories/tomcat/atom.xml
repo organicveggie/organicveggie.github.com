@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Tomcat | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/tomcat/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/tomcat/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tomcat init script for Ubuntu]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
+    <link href="http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
     <updated>2010-07-25T13:06:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
+    <id>http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
     <content type="html"><![CDATA[<p>Recently I spent some time working on improving my init scripts for Tomcat 6.x in a production environment running Ubuntu. One of the major problems we had encountered was that occasionally Tomcat refuses to shut down completely and requires a <code>kill -9</code> to stop it. The standard init scripts I had seen didn't solve this problem at all.</p>
 
 <!-- more -->

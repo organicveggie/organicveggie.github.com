@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Programming | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/programming/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <link href="http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
     <updated>2013-04-10T15:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <id>http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
     <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
 Most of the process is documented by Sonatype, which you can read about here:</p>
 
@@ -243,9 +243,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Different content in Rails based on UserAgent]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
+    <link href="http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
     <updated>2010-08-11T10:57:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
+    <id>http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
     <content type="html"><![CDATA[<p>I was recently working on a website built using Rails that needed to render different content for certain user agents. Specifically, we needed simpler versions of certain pages for BlackBerry devices. Here's how I accomplished it.</p>
 
 <!-- more -->
@@ -339,9 +339,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Ruby mixin for the Enum pattern]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
+    <link href="http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
     <updated>2010-06-03T14:27:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
+    <id>http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
     <content type="html"><![CDATA[<p>Sometimes you just want to use an Enum. Unfortunately, if you're a Ruby developer, Ruby does not offer a native enum structure.</p>
 
 <!-- more -->
@@ -541,9 +541,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[To Rewrite or Not to Rewrite: The Ugly Question]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
+    <link href="http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
     <updated>2010-04-24T14:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
+    <id>http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
     <content type="html"><![CDATA[<p>I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil's advocate and argued against ever throwing out and rewriting, which really got me thinking about the whole concept.</p>
 
 <!-- more -->
@@ -584,9 +584,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[FlashVars broken in IE8]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
+    <link href="http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
     <updated>2010-03-10T10:16:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
+    <id>http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
     <content type="html"><![CDATA[<p>Unsurprisingly, Internet Explorer 8 broke yet another feature of the web.</p>
 
 <!-- more -->

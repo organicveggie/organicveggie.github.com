@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Asgard and Mater Cookbooks]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/"/>
+    <link href="http://bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/"/>
     <updated>2013-04-29T21:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks</id>
+    <id>http://bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks</id>
     <content type="html"><![CDATA[<p>Over at <a href="http://www.studyblue.com">StudyBlue</a>, we leverage <a href="http://www.opscode.com/chef/">Chef</a> pretty heavily for automation. Today we just open sourced two Chef cookbooks as a way to give back to the community that has supported us.</p>
 
 <!-- more -->
@@ -48,9 +48,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <link href="http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
     <updated>2013-04-10T15:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <id>http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
     <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
 Most of the process is documented by Sonatype, which you can read about here:</p>
 
@@ -351,9 +351,9 @@ Most of the process is documented by Sonatype, which you can read about here:</p
   
   <entry>
     <title type="html"><![CDATA[Distributed Graphite on EC2]]></title>
-    <link href="http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/"/>
+    <link href="http://bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/"/>
     <updated>2012-05-28T14:20:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2</id>
+    <id>http://bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2</id>
     <content type="html"><![CDATA[<p>Some time ago, we switched from <a href="http://www.cacti.net/">Cacti</a> to <a href="http://graphite.wikidot.com/">Graphite</a> for tracking and graphing system metrics. In our <a href="http://aws.amazon.com/ec2/">Amazon EC2 environment</a>, we frequently startup new servers and shut down old servers. While Cacti did a decent job, the amount of manual effort required to setup new graphs made it a challenge to use. Since Graphite simply tracks anything you throw at it and easily handles applying aggregate functions across multiple metrics, we found Graphite to be a much better fit with EC2 and our usage patterns. With a solid web interface and a variety of alternate front-ends and awesome dashboard tools like <a href="http://jondot.github.com/graphene/">Graphene</a>, we quickly fell in love with Graphite.</p>
 
 <!-- more -->
@@ -502,9 +502,9 @@ MEMCACHE_HOSTS = [ 'memcache1.graphite:11211' ]</code></pre>
   
   <entry>
     <title type="html"><![CDATA[Testing Logstash grok filters]]></title>
-    <link href="http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/"/>
+    <link href="http://bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/"/>
     <updated>2012-05-15T13:25:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters</id>
+    <id>http://bealetech.com/blog/2012/05/15/testing-logstash-grok-filters</id>
     <content type="html"><![CDATA[<p>Logstash is an outstanding tool for collecting and parsing logfiles. In particular, the grok filter is extremely useful to extract specific pieces of data from your logfiles. Once you pull data out of the logfiles into fields, you can easily search on those fields. Unfortunately, I find the format for patterns in grok filter challenging to write correctly. If you mess up your pattern, you will end up with the dreaded &#8220;_grokparsefailure&#8221; tag on your log entry. What you need is a way to test your patterns before adding them to Logstash.</p>
 
 <!-- more -->
@@ -656,9 +656,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Why PostgreSQL?]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/10/14/why-postgresql/"/>
+    <link href="http://bealetech.com/blog/2010/10/14/why-postgresql/"/>
     <updated>2010-10-14T22:49:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/10/14/why-postgresql</id>
+    <id>http://bealetech.com/blog/2010/10/14/why-postgresql</id>
     <content type="html"><![CDATA[<p>Quick overview of what PostgreSQL brings to the table that is not available in MySQL.</p>
 
 <!-- more -->
@@ -733,9 +733,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Different content in Rails based on UserAgent]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
+    <link href="http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
     <updated>2010-08-11T10:57:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
+    <id>http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
     <content type="html"><![CDATA[<p>I was recently working on a website built using Rails that needed to render different content for certain user agents. Specifically, we needed simpler versions of certain pages for BlackBerry devices. Here&#8217;s how I accomplished it.</p>
 
 <!-- more -->
@@ -820,9 +820,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Tomcat init script for Ubuntu]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
+    <link href="http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
     <updated>2010-07-25T13:06:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
+    <id>http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
     <content type="html"><![CDATA[<p>Recently I spent some time working on improving my init scripts for Tomcat 6.x in a production environment running Ubuntu. One of the major problems we had encountered was that occasionally Tomcat refuses to shut down completely and requires a <code>kill -9</code> to stop it. The standard init scripts I had seen didn&#8217;t solve this problem at all.</p>
 
 <!-- more -->
@@ -1112,9 +1112,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Ruby mixin for the Enum pattern]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
+    <link href="http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
     <updated>2010-06-03T14:27:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
+    <id>http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
     <content type="html"><![CDATA[<p>Sometimes you just want to use an Enum. Unfortunately, if you&#8217;re a Ruby developer, Ruby does not offer a native enum structure.</p>
 
 <!-- more -->
@@ -1257,9 +1257,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[To Rewrite or Not to Rewrite: The Ugly Question]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
+    <link href="http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
     <updated>2010-04-24T14:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
+    <id>http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
     <content type="html"><![CDATA[<p>I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil&#8217;s advocate and argued against ever throwing out and rewriting, which really got me thinking about the whole concept.</p>
 
 <!-- more -->
@@ -1300,9 +1300,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[FlashVars broken in IE8]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
+    <link href="http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
     <updated>2010-03-10T10:16:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
+    <id>http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
     <content type="html"><![CDATA[<p>Unsurprisingly, Internet Explorer 8 broke yet another feature of the web.</p>
 
 <!-- more -->
@@ -1364,9 +1364,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
+    <link href="http://bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
     <updated>2010-01-25T16:10:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
+    <id>http://bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
     <content type="html"><![CDATA[<p>While working on a recent project in GWT, I needed to embed a full HTML document inside an IFRAME. And I didn&#8217;t want to specify a remote URL for the IFRAME - I actually wanted to shove the HTML content directly into the IFRAME.</p>
 
 <!-- more -->
@@ -1522,9 +1522,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Subversion: File or directory is out of date; try updating]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/"/>
+    <link href="http://bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/"/>
     <updated>2010-01-01T18:36:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating</id>
+    <id>http://bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating</id>
     <content type="html"><![CDATA[<p>I recently started encountering a strange problem with Subversion on one of my machines. In larger commits, I would suddenly get an error:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1570,9 +1570,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Kubuntu 9.10 Dual Monitors]]></title>
-    <link href="http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/"/>
+    <link href="http://bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/"/>
     <updated>2009-12-06T11:12:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors</id>
+    <id>http://bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors</id>
     <content type="html"><![CDATA[<p>A few months back I got a new <a href="http://system76.com/product_info.php?cPath=28&amp;products_id=76">12.1&#8221; System76 Darter laptop</a> and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I wanted was to have my laptop LCD on the left at 1280x800 and my ViewSonic LCD panel on the right running at 1680x1050. Apparently I&#8217;m old-skool, because I&#8217;m used to hacking away at my <code>xorg.conf</code> just to get dual monitor support to work under Linux. Somehow I never knew about <a href="http://www.x.org/wiki/Projects/XRandR">xrandr</a>, KRandR, etc.</p>
 
 <!-- more -->
@@ -1723,9 +1723,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Spring PropertyPlaceholderConfigurer beans]]></title>
-    <link href="http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
+    <link href="http://bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
     <updated>2008-05-04T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
+    <id>http://bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
     <content type="html"><![CDATA[<p>So I found a scenario today where we had two different <code>PropertyPlaceHolderConfigurer</code> beans declared in two separate XML files. Unfortunately, the second property file wasn’t getting loaded, so we would get errors about Spring being unable to resolve particular properties.</p>
 
 <p>I found this great post summarizing the solution:</p>
@@ -1749,9 +1749,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[DRY Associations in Rails]]></title>
-    <link href="http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails/"/>
+    <link href="http://bealetech.com/blog/2007/08/19/dry-associations-in-rails/"/>
     <updated>2007-08-19T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails</id>
+    <id>http://bealetech.com/blog/2007/08/19/dry-associations-in-rails</id>
     <content type="html"><![CDATA[<p>I found a nice little article from a few months ago on <a href="http://therailsway.com/">The Rails Way</a>. Written by koz, <a href="http://therailsway.com/2007/3/26/association-proxies-are-your-friend">Assocation Proxies</a> talks about some Best Practices for using assocations within Rails. I really felt the suggestions hit the proverbial nail on the head in terms of following the DRY principles. The first suggestion was on the best way to restrict access to user specific information. It&#8217;s incredibly useful to take advantage your RESTful patterns and make a single call like:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1772,10 +1772,10 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters Part 2]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
+    <link href="http://bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
     <updated>2006-06-04T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
-    <content type="html"><![CDATA[<p>In an <a href="http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
+    <id>http://bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
+    <content type="html"><![CDATA[<p>In an <a href="http://bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
 
 <p>Here&#8217;s a basic example from inside the execute method in an Action.</p>
 
@@ -1798,9 +1798,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Exception Handling Framework for J2EE Applications]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/"/>
+    <link href="http://bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/"/>
     <updated>2006-05-24T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications</id>
+    <id>http://bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications</id>
     <content type="html"><![CDATA[<p>OnJava has an interesting <a href="http://www.onjava.com/pub/a/onjava/2006/01/11/exception-handling-framework-for-j2ee.html">article</a> on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base class for exceptions and a basic handler for all requests that includes dispatcher to pass the request along to the appropriate method.The fundamental idea is fairly sound and the idea of including a context to allow reuse of generic exceptions seems like a strong idea.</p>
 
 <p>My concern is that in a large project, the use of a &#8220;context&#8221; may make it difficult to figure out which specific message code is used in a given place. The generic exception handling is especially beneficial for the &#8220;this should never happen&#8221; cases where there isn&#8217;t much the app can do about the exception, but should still handle it in a robust manner.</p>
@@ -1809,9 +1809,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
+    <link href="http://bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/"/>
     <updated>2006-01-23T23:00:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
+    <id>http://bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters</id>
     <content type="html"><![CDATA[<p>If you have a Struts Action servlet and you want to redirect to another page, the standard Struts technique is to return an ActionForward and setup an appropriate forward entry in <code>struts-config.xml</code>:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -2017,9 +2017,9 @@ grok.match(text).captures()
   
   <entry>
     <title type="html"><![CDATA[Prefactoring]]></title>
-    <link href="http://blog.bealetech.com/blog/2005/12/27/prefactoring/"/>
+    <link href="http://bealetech.com/blog/2005/12/27/prefactoring/"/>
     <updated>2005-12-27T23:00:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2005/12/27/prefactoring</id>
+    <id>http://bealetech.com/blog/2005/12/27/prefactoring</id>
     <content type="html"><![CDATA[<p>Prefactoring is the process of using your experience to write better code.  Specifically, writing code that can be refactored more easily, that is easier to read and easier to maintain.</p>
 
 <p>The article is available on <a href="http://www.oreillynet.com/">oreillynet.com</a>:</p>

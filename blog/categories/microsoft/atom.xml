@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Microsoft | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/microsoft/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/microsoft/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[FlashVars broken in IE8]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
+    <link href="http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/"/>
     <updated>2010-03-10T10:16:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
+    <id>http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8</id>
     <content type="html"><![CDATA[<p>Unsurprisingly, Internet Explorer 8 broke yet another feature of the web.</p>
 
 <!-- more -->

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Rails | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/rails/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Different content in Rails based on UserAgent]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
+    <link href="http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/"/>
     <updated>2010-08-11T10:57:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
+    <id>http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent</id>
     <content type="html"><![CDATA[<p>I was recently working on a website built using Rails that needed to render different content for certain user agents. Specifically, we needed simpler versions of certain pages for BlackBerry devices. Here's how I accomplished it.</p>
 
 <!-- more -->
@@ -111,9 +111,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby mixin for the Enum pattern]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
+    <link href="http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/"/>
     <updated>2010-06-03T14:27:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
+    <id>http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern</id>
     <content type="html"><![CDATA[<p>Sometimes you just want to use an Enum. Unfortunately, if you're a Ruby developer, Ruby does not offer a native enum structure.</p>
 
 <!-- more -->
@@ -313,9 +313,9 @@
   
   <entry>
     <title type="html"><![CDATA[DRY Associations in Rails]]></title>
-    <link href="http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails/"/>
+    <link href="http://bealetech.com/blog/2007/08/19/dry-associations-in-rails/"/>
     <updated>2007-08-19T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails</id>
+    <id>http://bealetech.com/blog/2007/08/19/dry-associations-in-rails</id>
     <content type="html"><![CDATA[<p>I found a nice little article from a few months ago on <a href="http://therailsway.com/">The Rails Way</a>. Written by koz, <a href="http://therailsway.com/2007/3/26/association-proxies-are-your-friend">Assocation Proxies</a> talks about some Best Practices for using assocations within Rails. I really felt the suggestions hit the proverbial nail on the head in terms of following the DRY principles. The first suggestion was on the best way to restrict access to user specific information. It's incredibly useful to take advantage your RESTful patterns and make a single call like:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

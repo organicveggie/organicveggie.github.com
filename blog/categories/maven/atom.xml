@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Maven | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/maven/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/maven/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <link href="http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
     <updated>2013-04-10T15:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <id>http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
     <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
 Most of the process is documented by Sonatype, which you can read about here:</p>
 

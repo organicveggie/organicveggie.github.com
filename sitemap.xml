@@ -1,119 +1,115 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://blog.bealetech.com/blog/2005/12/27/prefactoring/</loc>
+        <loc>http://bealetech.com/blog/2005/12/27/prefactoring/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/</loc>
+        <loc>http://bealetech.com/blog/2006/01/23/struts-redirect-w-slash-parameters/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/
+            http://bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/
+        </loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/</loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bealetech.com/blog/2007/08/19/dry-associations-in-rails/</loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/
+        </loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/
         </loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/
+            http://bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/
         </loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2007/08/19/dry-associations-in-rails/</loc>
+        <loc>http://bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/
+            http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/
         </loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/</loc>
+        <loc>http://bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/</loc>
+        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://blog.bealetech.com/blog/2010/01/01/subversion-file-or-directory-is-out-of-date-try-updating/
+            http://bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/
         </loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/
-        </loc>
+        <loc>http://bealetech.com/blog/2010/10/14/why-postgresql/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2010/03/10/flashvars-broken-in-ie8/</loc>
+        <loc>http://bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/
-        </loc>
+        <loc>http://bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2010/06/03/ruby-mixin-for-the-enum-pattern/</loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/</loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://blog.bealetech.com/blog/2010/08/11/different-content-in-rails-based-on-useragent/
-        </loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.bealetech.com/blog/2010/10/14/why-postgresql/</loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.bealetech.com/blog/2012/05/15/testing-logstash-grok-filters/</loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/</loc>
-        <lastmod>2013-04-10T14:15:03-07:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/
-        </loc>
+        <loc>http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/</loc>
         <lastmod>2013-04-10T16:11:51-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/</loc>
+        <loc>http://bealetech.com/blog/2013/04/29/asgard-and-mater-cookbooks/</loc>
         <lastmod>2013-04-29T21:08:48-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/about/</loc>
+        <loc>http://bealetech.com/about/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/blog/archives/</loc>
+        <loc>http://bealetech.com/blog/archives/</loc>
         <lastmod>2013-04-29T21:08:48-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/</loc>
+        <loc>http://bealetech.com/</loc>
         <lastmod>2013-04-29T21:08:48-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/presentations/</loc>
+        <loc>http://bealetech.com/presentations/</loc>
         <lastmod>2013-04-10T14:15:03-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/projects/</loc>
+        <loc>http://bealetech.com/projects/</loc>
         <lastmod>2013-04-29T21:11:31-07:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.bealetech.com/robots.txt</loc>
+        <loc>http://bealetech.com/robots.txt</loc>
         <lastmod>2013-04-10T14:15:04-07:00</lastmod>
     </url>
 </urlset>

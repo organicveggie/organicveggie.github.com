@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Database | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/database/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/database/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why PostgreSQL?]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/10/14/why-postgresql/"/>
+    <link href="http://bealetech.com/blog/2010/10/14/why-postgresql/"/>
     <updated>2010-10-14T22:49:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/10/14/why-postgresql</id>
+    <id>http://bealetech.com/blog/2010/10/14/why-postgresql</id>
     <content type="html"><![CDATA[<p>Quick overview of what PostgreSQL brings to the table that is not available in MySQL.</p>
 
 <!-- more -->

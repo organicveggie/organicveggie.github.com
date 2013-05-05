@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ubuntu | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/ubuntu/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tomcat init script for Ubuntu]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
+    <link href="http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu/"/>
     <updated>2010-07-25T13:06:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
+    <id>http://bealetech.com/blog/2010/07/25/tomcat-init-script-for-ubuntu</id>
     <content type="html"><![CDATA[<p>Recently I spent some time working on improving my init scripts for Tomcat 6.x in a production environment running Ubuntu. One of the major problems we had encountered was that occasionally Tomcat refuses to shut down completely and requires a <code>kill -9</code> to stop it. The standard init scripts I had seen didn't solve this problem at all.</p>
 
 <!-- more -->
@@ -398,9 +398,9 @@
   
   <entry>
     <title type="html"><![CDATA[Kubuntu 9.10 Dual Monitors]]></title>
-    <link href="http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/"/>
+    <link href="http://bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors/"/>
     <updated>2009-12-06T11:12:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors</id>
+    <id>http://bealetech.com/blog/2009/12/06/kubuntu-9-dot-10-dual-monitors</id>
     <content type="html"><![CDATA[<p>A few months back I got a new <a href="http://system76.com/product_info.php?cPath=28&amp;products_id=76">12.1" System76 Darter laptop</a> and I finally decided to setup dual monitors on Kubuntu 9.10 (Karmic Koala).What I wanted was to have my laptop LCD on the left at 1280x800 and my ViewSonic LCD panel on the right running at 1680x1050. Apparently I'm old-skool, because I'm used to hacking away at my <code>xorg.conf</code> just to get dual monitor support to work under Linux. Somehow I never knew about <a href="http://www.x.org/wiki/Projects/XRandR">xrandr</a>, KRandR, etc.</p>
 
 <!-- more -->

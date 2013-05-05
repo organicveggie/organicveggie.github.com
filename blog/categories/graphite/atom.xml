@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Graphite | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/graphite/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/graphite/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Distributed Graphite on EC2]]></title>
-    <link href="http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/"/>
+    <link href="http://bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2/"/>
     <updated>2012-05-28T14:20:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2</id>
+    <id>http://bealetech.com/blog/2012/05/28/distributed-graphite-on-ec2</id>
     <content type="html"><![CDATA[<p>Some time ago, we switched from <a href="http://www.cacti.net/">Cacti</a> to <a href="http://graphite.wikidot.com/">Graphite</a> for tracking and graphing system metrics. In our <a href="http://aws.amazon.com/ec2/">Amazon EC2 environment</a>, we frequently startup new servers and shut down old servers. While Cacti did a decent job, the amount of manual effort required to setup new graphs made it a challenge to use. Since Graphite simply tracks anything you throw at it and easily handles applying aggregate functions across multiple metrics, we found Graphite to be a much better fit with EC2 and our usage patterns. With a solid web interface and a variety of alternate front-ends and awesome dashboard tools like <a href="http://jondot.github.com/graphene/">Graphene</a>, we quickly fell in love with Graphite.</p>
 
 <!-- more -->

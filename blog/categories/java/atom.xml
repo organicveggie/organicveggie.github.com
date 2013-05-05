@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Java | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pushing to Maven Central with Sonatype]]></title>
-    <link href="http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
+    <link href="http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype/"/>
     <updated>2013-04-10T15:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
+    <id>http://bealetech.com/blog/2013/04/10/pushing-to-maven-central-with-sonatype</id>
     <content type="html"><![CDATA[<p>Getting your opensource JAR published to Maven Central is free, but requires a little bit of up front work. I use <a href="https://sonatype.org">Sonatype</a> to help publish the jars for <a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a>, which makes life much easier.
 Most of the process is documented by Sonatype, which you can read about here:</p>
 
@@ -243,9 +243,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Embedding HTML Document in an IFRAME with GWT]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
+    <link href="http://bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt/"/>
     <updated>2010-01-25T16:10:00-08:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
+    <id>http://bealetech.com/blog/2010/01/25/embedding-html-document-in-an-iframe-with-gwt</id>
     <content type="html"><![CDATA[<p>While working on a recent project in GWT, I needed to embed a full HTML document inside an IFRAME. And I didn't want to specify a remote URL for the IFRAME - I actually wanted to shove the HTML content directly into the IFRAME.</p>
 
 <!-- more -->
@@ -417,9 +417,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Spring PropertyPlaceholderConfigurer beans]]></title>
-    <link href="http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
+    <link href="http://bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans/"/>
     <updated>2008-05-04T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
+    <id>http://bealetech.com/blog/2008/05/04/spring-propertyplaceholderconfigurer-beans</id>
     <content type="html"><![CDATA[<p>So I found a scenario today where we had two different <code>PropertyPlaceHolderConfigurer</code> beans declared in two separate XML files. Unfortunately, the second property file wasn’t getting loaded, so we would get errors about Spring being unable to resolve particular properties.</p>
 
 <p>I found this great post summarizing the solution:</p>
@@ -448,9 +448,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Struts Redirect w/Parameters Part 2]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
+    <link href="http://bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2/"/>
     <updated>2006-06-04T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
+    <id>http://bealetech.com/blog/2006/06/04/struts-redirect-w-slash-parameters-part-2</id>
     <content type="html"><![CDATA[<p>In an <a href="/blog/2006/01/23/struts-redirect-w-slash-parameters/">earlier post</a>, I described a class to handle redirects in Struts and passing parameters along. That technique is not necessary; as of Struts 1.2.7, you can use the <code>ActionRedirect</code> class instead.</p>
 
 <p>Here's a basic example from inside the execute method in an Action.</p>
@@ -473,9 +473,9 @@ What is the new development version for "Metrics Statsd Support"? (com.bealetech
   
   <entry>
     <title type="html"><![CDATA[Exception Handling Framework for J2EE Applications]]></title>
-    <link href="http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/"/>
+    <link href="http://bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications/"/>
     <updated>2006-05-24T23:00:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications</id>
+    <id>http://bealetech.com/blog/2006/05/24/exception-handling-framework-for-j2ee-applications</id>
     <content type="html"><![CDATA[<p>OnJava has an interesting <a href="http://www.onjava.com/pub/a/onjava/2006/01/11/exception-handling-framework-for-j2ee.html">article</a> on generic approach to handling exceptions within a J2EE framework. The basic idea involves creating a generic base class for exceptions and a basic handler for all requests that includes dispatcher to pass the request along to the appropriate method.The fundamental idea is fairly sound and the idea of including a context to allow reuse of generic exceptions seems like a strong idea.</p>
 
 <p>My concern is that in a large project, the use of a "context" may make it difficult to figure out which specific message code is used in a given place. The generic exception handling is especially beneficial for the "this should never happen" cases where there isn't much the app can do about the exception, but should still handle it in a robust manner.</p>

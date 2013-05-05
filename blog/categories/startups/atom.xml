@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Startups | Blind Squirrel]]></title>
-  <link href="http://blog.bealetech.com/blog/categories/startups/atom.xml" rel="self"/>
-  <link href="http://blog.bealetech.com/"/>
-  <updated>2013-05-04T19:29:08-07:00</updated>
-  <id>http://blog.bealetech.com/</id>
+  <link href="http://bealetech.com/blog/categories/startups/atom.xml" rel="self"/>
+  <link href="http://bealetech.com/"/>
+  <updated>2013-05-04T19:31:20-07:00</updated>
+  <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[To Rewrite or Not to Rewrite: The Ugly Question]]></title>
-    <link href="http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
+    <link href="http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question/"/>
     <updated>2010-04-24T14:07:00-07:00</updated>
-    <id>http://blog.bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
+    <id>http://bealetech.com/blog/2010/04/24/to-rewrite-or-not-to-rewrite-the-ugly-question</id>
     <content type="html"><![CDATA[<p>I recently had a discussion about the idea of rewriting software from scratch. I actually played the devil's advocate and argued against ever throwing out and rewriting, which really got me thinking about the whole concept.</p>
 
 <!-- more -->
