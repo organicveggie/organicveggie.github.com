@@ -9,7 +9,8 @@
   <meta name="author" content="Sean Laurent">
 
   
-  <meta name="description" content="Projects Apr 20th, 2013 metrics-statsd Plugin for codahale/metrics to send metrics output to Statsd ec2launcher A powerful tool to help launch &hellip;">
+  <meta name="description" content="Projects Apr 20th, 2013 ec2launcher A powerful tool to help launch Amazon EC2 instances.
+Supports concepts of environments and applications. metrics &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,18 +99,29 @@
 <time datetime="2013-04-20T21:11:00-07:00" pubdate data-updated="true">Apr 20<span>th</span>, 2013</time></p>
   </header>
   
-  <h3><a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a></h3>
+  <h3><a href="https://github.com/StudyBlue/ec2launcher">ec2launcher</a></h3>
+
+<ul>
+<li>A powerful tool to help launch Amazon EC2 instances.</li>
+<li>Supports concepts of environments and applications.</li>
+</ul>
+
+
+<h3><a href="https://github.com/organicveggie/metrics-statsd">metrics-statsd</a></h3>
 
 <ul>
 <li>Plugin for <a href="https://github.com/codahale/metrics">codahale/metrics</a> to send metrics output to <a href="https://github.com/etsy/statsd/">Statsd</a></li>
 </ul>
 
 
-<h3><a href="https://github.com/StudyBlue/ec2launcher">ec2launcher</a></h3>
+<h3><a href="https://github.com/organicveggie/mongodb-graphite">mongodb-graphite</a></h3>
 
 <ul>
-<li>A powerful tool to help launch Amazon EC2 instances.</li>
-<li>Supports concepts of environments and applications.</li>
+<li>A Ruby client to retrieve statistics from a MongoDB cluster and push them to either Graphite or Statsd.</li>
+<li>Based on original work by <a href="https://github.com/kamaradclimber/mongodb-graphite">kamaradclimber</a></li>
+<li>Major code overhaul</li>
+<li>Expanded to include support for both Graphite and Statsd</li>
+<li>Documentation and CLI cleanup</li>
 </ul>
 
 
@@ -129,6 +141,84 @@
 <ul>
 <li>Chef cookbook for installing <a href="https://github.com/obfuscurity/mater">Mater</a>, a bridge between <a href="http://panic.com/statusboard/">StatusBoard</a> and <a href="http://graphite.wikidot.com/">Graphite</a>.</li>
 <li>Includes support for running Mater under <a href="http://unicorn.bogomips.org/">Unicorn</a> with Apache as a proxy.</li>
+</ul>
+
+
+<h1>Other Contributions</h1>
+
+<h2>Chef Cookbooks</h2>
+
+<h3><a href="https://github.com/edelight/chef-mongodb">chef-mongodb</a></h3>
+
+<ul>
+<li><a href="https://github.com/edelight/chef-mongodb/pull/101">Disable automatic replica set and shard configuration</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/bryanwb/chef-tomcat">chef-tomcat</a></h3>
+
+<ul>
+<li><a href="https://github.com/bryanwb/chef-tomcat/pull/9">Provide support to completely override context.xml</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/elasticsearch/cookbook-elasticsearch/">cookbook-elasticsearch</a></h3>
+
+<ul>
+<li><a href="https://github.com/elasticsearch/cookbook-elasticsearch/pull/80">Fix custom installation directory</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/apsoto/monit">monit</a></h3>
+
+<ul>
+<li><a href="https://github.com/apsoto/monit/pull/3">Additional configuration options as Chef attributes</a></li>
+<li><a href="https://github.com/apsoto/monit/pull/4">Switch from library to definition</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/garrettux/scala-sbt-cookbook">scala-sbt-cookbook</a></h3>
+
+<ul>
+<li><a href="https://github.com/garrettux/scala-sbt-cookbook/pull/1">Add support for RedHat based OS</a></li>
+</ul>
+
+
+<h2>Other</h2>
+
+<h3><a href="https://github.com/cloudant/bucky">bucky</a></h3>
+
+<ul>
+<li><a href="https://github.com/cloudant/bucky/pull/6">Added support for Gauges</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/codahale/metrics">codahale/metrics</a></h3>
+
+<ul>
+<li><a href="https://github.com/codahale/metrics/pull/197">Fixed line platform-specific line endings</a></li>
+<li><a href="https://github.com/codahale/metrics/pull/237">Support for using TimerContext with other classes</a></li>
+</ul>
+
+
+<h3><a href="http://logstash.net/">Logstash</a></h3>
+
+<ul>
+<li><a href="https://github.com/logstash/logstash/pull/211">Added support for AWS SQS queues for input/output</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/mzupan/nagios-plugin-mongodb">nagios-plugin-mongodb</a></h3>
+
+<ul>
+<li><a href="https://github.com/mzupan/nagios-plugin-mongodb/pull/24">Fixed replication lag check and slave_ok deprecation warning</a></li>
+</ul>
+
+
+<h3><a href="https://github.com/coderanger/pychef">pychef</a></h3>
+
+<ul>
+<li><a href="https://github.com/coderanger/pychef/pull/6">Workaround when FQDN not defined</a></li>
 </ul>
 
 
