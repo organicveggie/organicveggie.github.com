@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Chef | Blind Squirrel]]></title>
   <link href="http://bealetech.com/blog/categories/chef/atom.xml" rel="self"/>
   <link href="http://bealetech.com/"/>
-  <updated>2013-05-26T14:52:49-07:00</updated>
+  <updated>2013-06-14T14:14:22-07:00</updated>
   <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Custom SSL Certificates with Chef 11 Server]]></title>
+    <link href="http://bealetech.com/blog/2013/06/14/custom-ssl-certificates-with-chef-11-server/"/>
+    <updated>2013-06-14T14:02:00-07:00</updated>
+    <id>http://bealetech.com/blog/2013/06/14/custom-ssl-certificates-with-chef-11-server</id>
+    <content type="html"><![CDATA[<p>While setting up <a href="http://www.opscode.com/chef/">Chef</a> 11 Server on a <a href="http://www.centos.org/">CentOS</a> 6.4 box, I realized I wanted that it defaults to using self-signed SSL certificates. Since we have existing wildcard certificates through GoDaddy, I wanted to switch over to those. It look a little bit of digging and some help from IRC #chef to get things working.</p>
+
+<p>First, you need to your certificate and key. For completeness, you want to combine your certificate with the certificate chain provided by your signing authority. In the case of GoDaddy, they gave me two files:</p>
+
+<ul>
+<li><code>example.com.crt</code></li>
+<li><code>gd_bundle.crt</code></li>
+</ul>
+
+
+<p>To create a combined bundle:</p>
+
+<p><code>bash
+cat example.com.crt gd_bundle.crt &gt; example.com.pem
+</code></p>
+
+<p>In addition, you need to make sure that your keyfile does <em>not</em> have a passphrase associated with it, otherwise Nginx will refuse to start up. To remove the passphrase from an existing key file:</p>
+
+<p><code>bash
+openssl rsa -in example.com.key -out example.com.nopassphrase.key
+</code></p>
+
+<p>You need to copy the combined bundle and your key file to your server and place them in a secure location. On a typical CentOS installation, you want to dump the files in <code>/etc/pki/tls/private</code>.</p>
+
+<p>Next, you need to tell Chef to use the custom certificates. Create a file named <code>/etc/chef-server/chef-server.rb</code>, if doesn't exist already. Add the following lines to it:</p>
+
+<p><code>ruby
+nginx['ssl_certificate']        = "/etc/pki/tls/private/example.com.pem"
+nginx['ssl_certificate_key']    = "/etc/pki/tls/private/example.com.nopassphrase.key"
+</code></p>
+
+<p>Now, reconfigure Chef server:</p>
+
+<p><code>bash
+chef-server-ctl reconfigure
+</code></p>
+
+<p>That will reconfigure Nginx with the new settings (which are stored in <code>/var/opt/chef-server/nginx/etc</code>) and automatically restart Nginx. You can verify that it's using the correct certificate by running:</p>
+
+<p><code>bash
+openssl s_client -connect localhost:443
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Asgard and Mater Cookbooks]]></title>
