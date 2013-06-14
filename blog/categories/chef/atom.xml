@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Chef | Blind Squirrel]]></title>
   <link href="http://bealetech.com/blog/categories/chef/atom.xml" rel="self"/>
   <link href="http://bealetech.com/"/>
-  <updated>2013-06-14T14:14:22-07:00</updated>
+  <updated>2013-06-14T14:15:45-07:00</updated>
   <id>http://bealetech.com/</id>
   <author>
     <name><![CDATA[Sean Laurent]]></name>
@@ -19,6 +19,9 @@
     <updated>2013-06-14T14:02:00-07:00</updated>
     <id>http://bealetech.com/blog/2013/06/14/custom-ssl-certificates-with-chef-11-server</id>
     <content type="html"><![CDATA[<p>While setting up <a href="http://www.opscode.com/chef/">Chef</a> 11 Server on a <a href="http://www.centos.org/">CentOS</a> 6.4 box, I realized I wanted that it defaults to using self-signed SSL certificates. Since we have existing wildcard certificates through GoDaddy, I wanted to switch over to those. It look a little bit of digging and some help from IRC #chef to get things working.</p>
+
+<!-- more -->
+
 
 <p>First, you need to your certificate and key. For completeness, you want to combine your certificate with the certificate chain provided by your signing authority. In the case of GoDaddy, they gave me two files:</p>
 

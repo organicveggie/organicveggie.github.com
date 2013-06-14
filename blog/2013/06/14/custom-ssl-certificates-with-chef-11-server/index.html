@@ -108,6 +108,9 @@
 
 <div class="entry-content"><p>While setting up <a href="http://www.opscode.com/chef/">Chef</a> 11 Server on a <a href="http://www.centos.org/">CentOS</a> 6.4 box, I realized I wanted that it defaults to using self-signed SSL certificates. Since we have existing wildcard certificates through GoDaddy, I wanted to switch over to those. It look a little bit of digging and some help from IRC #chef to get things working.</p>
 
+<!-- more -->
+
+
 <p>First, you need to your certificate and key. For completeness, you want to combine your certificate with the certificate chain provided by your signing authority. In the case of GoDaddy, they gave me two files:</p>
 
 <ul>
