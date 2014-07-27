@@ -198,7 +198,7 @@ grok.match(text).captures()
 <div>
   <pre><code class='ruby'>pattern = '%{DAY} %{MONTH} %{MONTHDAY} %{TIME}'
 grok.compile(pattern)
-grok.match(text).capture()
+grok.match(text).captures()
  =&gt; {&quot;DAY&quot;=&gt;[&quot;Tue&quot;], &quot;MONTH&quot;=&gt;[&quot;May&quot;], &quot;MONTHDAY&quot;=&gt;[&quot;15&quot;], &quot;TIME&quot;=&gt;[&quot;11:21:42&quot;], &quot;HOUR&quot;=&gt;[&quot;11&quot;], &quot;MINUTE&quot;=&gt;[&quot;21&quot;], &quot;SECOND&quot;=&gt;[&quot;42&quot;]}</code></pre>
 </div>
 
